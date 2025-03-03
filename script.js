@@ -105,31 +105,118 @@ class SmoothScroll {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  const smoothScroll = new SmoothScroll(document.querySelector('.smooth-scroll'));
-
-  document.querySelectorAll('.sidebar__link, .right_section a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.querySelector('span, .link_text').textContent.trim();
-      smoothScroll.smoothScrollToSection(targetId);
-    });
-  });
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      smoothScroll.setup();
-      smoothScroll.onWindowResize();
-    }, 13000); // Delay to ensure preloader is finished
-  });
-
   // Add screen size warning
   checkScreenSize();
   window.addEventListener('resize', checkScreenSize);
+
+  // Preloader
+  let preloaderHeight = document.querySelector(".preload");
+  let preloaderHeading = document.querySelector(".loading-heading");
+  let count = document.querySelector(".count");
+
+  window.addEventListener("load", () => {
+    document.body.classList.add('preload-active'); // Add class to prevent scrolling
+    document.querySelector('.smooth-scroll').classList.add('preload-active'); // Add class to prevent scrolling
+
+    let num = 0;
+
+    let preloading = setInterval(() => {
+      if (num < 100) {
+        preloaderHeading.style.transform = `translateY(${0}%)`;
+        preloaderHeading.style.transform = `skewY(${0}%)`;
+        preloaderHeading.style.transition = "all ease 1.2s";
+        num++;
+        document.documentElement.style.setProperty("--preloader", num + "%");
+        count.textContent = num + "%";
+      } else {
+        preloaderHeading.style.transform = `translateY(${-100}%)`;
+        preloaderHeading.style.transition = "all ease 1s";
+        preloaderHeight.style.height = "0";
+        preloaderHeight.style.transition = "all  2s cubic-bezier(1,0,0,1) ";
+        preloaderHeight.style.transitionDelay = "0.8s";
+        count.style.opacity = "0";
+        count.style.transition = "all ease 1s";
+
+        clearInterval(preloading);
+        document.body.classList.remove('preload-active'); // Remove class to allow scrolling
+        document.querySelector('.smooth-scroll').classList.remove('preload-active'); // Remove class to allow scrolling
+
+        // Initialize SmoothScroll and event listeners after preloader is finished
+        const smoothScroll = new SmoothScroll(document.querySelector('.smooth-scroll'));
+        smoothScroll.setup();
+        smoothScroll.onWindowResize();
+
+        document.querySelectorAll('.sidebar__link, .right_section a').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.querySelector('span, .link_text').textContent.trim();
+            smoothScroll.smoothScrollToSection(targetId);
+          });
+        });
+      }
+    }, 100);
+  });
+
+  // Disable scrolling during preloader phase
+  window.addEventListener('scroll', (e) => {
+    if (document.body.classList.contains('preload-active')) {
+      e.preventDefault();
+      window.scrollTo(0, 0);
+    }
+  });
+
+  // Navbar hover effect
+  const navLinks = document.querySelectorAll('.right_section a');
+
+  navLinks.forEach(link => {
+    link.addEventListener('mousemove', (e) => {
+      const rect = link.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      link.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+      link.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
+    });
+
+    link.addEventListener('mouseleave', () => {
+      link.style.transform = 'translate(0, 0)';
+      link.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
+    });
+  });
+
+  // Logo hover effect
+  const logo = document.querySelector('.logo');
+  const logoText = document.querySelector('.logo-text');
+
+  logo.addEventListener('mousemove', (e) => {
+    const rect = logo.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    logo.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+    logo.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
+    logoText.style.transform = `translate(${10 + x * 0.1}px, -50%)`; // Move the text with the logo
+  });
+
+  logo.addEventListener('mouseleave', () => {
+    logo.style.transform = 'translate(0, 0)';
+    logo.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
+    logoText.style.transform = 'translate(10px, -50%)'; // Reset the text position
+  });
+
+  logoText.addEventListener('mousemove', (e) => {
+    e.stopPropagation(); // Prevent the hover effect on the text itself
+  });
+
+  // Make the logo clickable to reload the page
+  const logoLink = document.querySelector('.logo-link');
+  logoLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.reload();
+  });
 });
 
 function checkScreenSize() {
   const warning = document.getElementById('screen-warning');
-  if (window.innerWidth < 1380) {
+  if (window.innerWidth < 1280) {
     if (!warning) {
       const warningDiv = document.createElement('div');
       warningDiv.id = 'screen-warning';
@@ -171,89 +258,6 @@ const observer = new IntersectionObserver((entries) => {
 
 const hiddenElements = document.querySelectorAll('.hidden');
 hiddenElements.forEach((el) => observer.observe(el));
-
-// Preloader
-let preloaderHeight = document.querySelector(".preload");
-let preloaderHeading = document.querySelector(".loading-heading");
-let count = document.querySelector(".count");
-
-window.addEventListener("load", () => {
-  document.body.classList.add('preload-active'); // Add class to prevent scrolling
-  document.querySelector('.smooth-scroll').classList.add('preload-active'); // Add class to prevent scrolling
-
-  let num = 0;
-
-  let preloading = setInterval(() => {
-    if (num < 100) {
-      preloaderHeading.style.transform = `translateY(${0}%)`;
-      preloaderHeading.style.transform = `skewY(${0}%)`;
-      preloaderHeading.style.transition = "all ease 1.2s";
-      num++;
-      document.documentElement.style.setProperty("--preloader", num + "%");
-      count.textContent = num + "%";
-    } else {
-      preloaderHeading.style.transform = `translateY(${-100}%)`;
-      preloaderHeading.style.transition = "all ease 1s";
-      preloaderHeight.style.height = "0";
-      preloaderHeight.style.transition = "all  2s cubic-bezier(1,0,0,1) ";
-      preloaderHeight.style.transitionDelay = "0.8s";
-      count.style.opacity = "0";
-      count.style.transition = "all ease 1s";
-
-      clearInterval(preloading);
-      document.body.classList.remove('preload-active'); // Remove class to allow scrolling
-      document.querySelector('.smooth-scroll').classList.remove('preload-active'); // Remove class to allow scrolling
-    }
-  }, 100);
-});
-
-// Navbar hover effect
-const navLinks = document.querySelectorAll('.right_section a');
-
-navLinks.forEach(link => {
-  link.addEventListener('mousemove', (e) => {
-    const rect = link.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    link.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-    link.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
-  });
-
-  link.addEventListener('mouseleave', () => {
-    link.style.transform = 'translate(0, 0)';
-    link.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
-  });
-});
-
-// Logo hover effect
-const logo = document.querySelector('.logo');
-const logoText = document.querySelector('.logo-text');
-
-logo.addEventListener('mousemove', (e) => {
-  const rect = logo.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  logo.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-  logo.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
-  logoText.style.transform = `translate(${10 + x * 0.1}px, -50%)`; // Move the text with the logo
-});
-
-logo.addEventListener('mouseleave', () => {
-  logo.style.transform = 'translate(0, 0)';
-  logo.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
-  logoText.style.transform = 'translate(10px, -50%)'; // Reset the text position
-});
-
-logoText.addEventListener('mousemove', (e) => {
-  e.stopPropagation(); // Prevent the hover effect on the text itself
-});
-
-// Make the logo clickable to reload the page
-const logoLink = document.querySelector('.logo-link');
-logoLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  window.location.reload();
-});
 
 
 
