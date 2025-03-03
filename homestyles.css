@@ -8,13 +8,95 @@ html, body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    overflow-x: hidden;
+    overflow: hidden; /* Hide scrollbar */
     scroll-behavior: smooth;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 /*preloader*/
+.preload * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} 
 
+:root {
+  --preloader: 10%;
+}
 
+@import url("http://fonts.cdnfonts.com/css/monument-extended");
+
+.preload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: #ffffff;
+}
+
+.preload h1 {
+  font-family: "Monument Extended", sans-serif;
+  font-size: 100px;
+  position: relative;
+  -webkit-text-stroke: 1px #147cd1;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  transform: translateY(100%);
+  letter-spacing: 1px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.preload h1::before {
+  content: attr(data-title);
+  position: absolute;
+  background: #147cd1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--preloader);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: all ease 0.1s;
+}
+
+.hide-text {
+  display: inline-flex;
+  overflow: hidden;
+}
+
+.count {
+  font-family: "Monument Extended", sans-serif;
+  font-size: 300px;
+  color: transparent;
+  position: absolute;
+  -webkit-text-stroke: 1.5px rgb(224, 220, 220);
+  transition: all ease 1s;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+body.preload-active {
+  overflow: hidden !important; /* Prevent scrolling */
+}
+
+.smooth-scroll.preload-active {
+  overflow: hidden !important; /* Prevent scrolling */
+}
 
 /*fonts*/
 @font-face {
@@ -57,7 +139,7 @@ border: .1em solid white;
 /* Nav styles */
 .nav_bar {
     height: 90px;
-    background-color: rgba(39, 40, 43, 0.534);
+    background-color: rgba(39, 40, 43, 0);
     font-family: productsans;
     font-weight: bold;
     display: flex;
@@ -79,15 +161,41 @@ border: .1em solid white;
     font-weight: bold;
     font-size: 30px;
     color: white;
+    position: relative; /* Add position relative for the hover effect */
   }
   
   .logo {
     height: 60px;
     border-radius: 60px;
     margin-right: 15px;
+    transition: transform 0.1s ease; /* Smooth transition while moving */
   }
   
-  .middle_section {
+  .logo:hover {
+    transform: none; /* Remove transform effect */
+  }
+  
+  .logo-text {
+    position: absolute;
+    left: 80px; /* Adjust the distance from the logo */
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition for text */
+    font-family: productsans;
+    font-weight: bold;
+    font-size: 1.5rem; /* Adjust the font size */
+    color: white;
+    pointer-events: none; /* Prevent the text from being hovered */
+  }
+  
+  .left_section:hover .logo-text {
+    opacity: 1;
+    transform: none; /* Remove transform effect */
+  }
+  
+  .right_section {
     color: white;
     display: flex;
     flex-direction: row;
@@ -99,11 +207,40 @@ border: .1em solid white;
     max-width: 500px;
   }
   
-  .middle_section a {
+  .right_section a {
   color: white; 
   text-decoration:none;
   transition: color 0.5s;
   transition: 0.15s;
+  }
+
+  .nav_bar .right_section a {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    transition: color 0.5s;
+    display: inline-block; /* Ensure the underline is only as long as the word */
+  }
+  
+  .nav_bar .right_section a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    transition: width 0.4s ease;
+    -webkit-transition: width 0.4s ease;
+  }
+  
+  .nav_bar .right_section a:hover::after {
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
   }
   
   .link_nav {
@@ -124,8 +261,7 @@ border: .1em solid white;
     transition: 0.15s;
   }
   
-  
-  .Home, .Events, .Vision, .About {
+  .Home, .About, .Works, .Experiences {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -138,26 +274,17 @@ border: .1em solid white;
   }
   
   .Home a:hover {
-    background-color: rgba(19, 22, 29, 0.5);
-    padding: 5px;
     transition: 0.15s;
   }
 
-  .Vision a:hover {
-    background-color: rgba(19, 22, 29, 0.5);
-    padding: 5px;
-    transition: 0.15s;
-  }
-  
-  .Events a:hover {
-    background-color: rgba(19, 22, 29, 0.5);
-    padding: 5px;
-    transition: 0.15s;
-  }
-  
   .About a:hover {
-    background-color: rgba(19, 22, 29, 0.5);
-    padding: 5px;
+    transition: 0.15s;
+  }
+  
+  .Works a:hover {
+    transition: 0.15s;
+  }
+  .Experiences a:hover {
     transition: 0.15s;
   }
   
@@ -196,7 +323,9 @@ border: .1em solid white;
  .gridbg {
 	background-image: url(images/grid.png);
 	background-repeat: repeat;
+  background-size: 50%; /* Make the grid image smaller */
   position: relative;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add subtle drop shadow */
   
 }
 
@@ -209,33 +338,61 @@ border: .1em solid white;
 
 .parallax {
   position: relative;
-  height: 106vh;
+  height: 20vh; /* Reduced height */
   z-index: -1;
-
-}
-
-.parallax .txt {
-  position: fixed;
-  margin-top: 120px;
-  max-width: 70%;
-  margin-left: 100px;
-  margin-right: auto;
+  overflow: hidden; /* Ensure content doesn't overflow */
 }
 
 .parallax .bg {
-  position: fixed;
+  position: fixed; /* Change to fixed to stay behind content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto; /* Ensure the aspect ratio is maintained */
+  pointer-events: none;
+  transform: translateY(0); /* Initial position */
+  transition: transform 0.1s linear; /* Smooth transition */
 }
 
 .parallax img {
   position: absolute;
-  top: -100px;
+  top: -20px;
   left: 0;
   width: 100%;
   pointer-events: none;
 }
 
+.maintext {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  margin-bottom: 0; /* Reduced space under the maintext */
+}
+
+.maintext p {
+  display: inline-block;
+  color: white;
+  font-size: 18.5em; /* Increased font size */
+  font-family: productsans;
+  animation: scrollText 140s linear infinite; /* Slowed down the speed further */
+}
+
+.maintext p::before,
+.maintext p::after {
+  content: " Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. —";
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 .content1 {
- background-image: url(images/bluegrid.png);
+ background-color: #147cd1;
  background-repeat: repeat;
  display: flex;
  width: 100%; 
@@ -245,12 +402,16 @@ border: .1em solid white;
 .content2 {
   display: flex;
   position: relative;
+  padding-bottom: 200px;
+  border-bottom: 1px solid #a7a6a6; /* Add a line between content2 and content3 */
+  margin-left: 60px; /* Add space at the sides of the line */
+  margin-right: 60px; /* Add space at the sides of the line */
 }
 
 .content3 {
   display: flex;
+  padding-top: 20px; /* Add some space above content3 */
 }
-
 
 /*text/buttons*/
 
@@ -277,6 +438,7 @@ border: .1em solid white;
   font-weight: bold;
   text-align: center;
   padding: 60px;
+  padding-top: 120px;
  
  }
 
@@ -337,14 +499,21 @@ box-shadow: inset 0 0 0 0 #1B2741;
   margin: 10px;
   transition: ease-out 0.3s;
   box-shadow: inset 0 0 0 0 #fff;
-  }
-  
-  .btndark:hover{
-    box-shadow: inset 200px 0 0 0 #147cd1;
-    color: #fff;
-  }
+  display: inline-block; /* Ensure the button is inline-block */
+}
 
+.btndark:hover {
+  box-shadow: inset 250px 0 0 0 #147cd1;
+  color: #fff;
+}
 
+.textboxdark a {
+  margin-right: 10px; /* Add space between the buttons */
+}
+
+.textboxdark a:last-child {
+  margin-right: 0; /* Remove margin from the last button */
+}
 
 .containerres {
   width: 80%; 
@@ -369,6 +538,7 @@ box-shadow: inset 0 0 0 0 #1B2741;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05); /* Make drop shadow more subtle */
 }
 
 .container
@@ -407,7 +577,7 @@ box-shadow: inset 0 0 0 0 #1B2741;
 
 .aboutus p
 {
-  color:grey;
+  color:#949494;
   font-size: 0.9em;
 }
 
@@ -430,7 +600,7 @@ box-shadow: inset 0 0 0 0 #1B2741;
   width: 40px;
   height: 40px;
   color: rgb(255, 255, 255);
-  background: #03D388;
+  background: #949494;
   justify-content: center;
   align-items:center;
   margin-right: 10px;
@@ -724,3 +894,192 @@ transform: translateX(0);
 .tagcloud--item:hover {
   color: #000000 ;
 }
+
+.smooth-scroll {
+  overflow: hidden; /* Ensure smooth scroll container does not show scrollbar */
+}
+
+/* ...existing code... */
+
+.hamburger-menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px; /* Increase the size for better visibility */
+  height: 50px; /* Increase the size for better visibility */
+  display: flex; /* Initially hidden */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 200; /* Ensure it is above other elements */
+  background-color: rgba(0, 0, 0, 0.5); /* Add a background color for better visibility */
+  border-radius: 50%; /* Make it circular */
+  padding: 10px; /* Add padding for better spacing */
+  transform: scale(0); /* Start with a small circle */
+  opacity: 0; /* Start with invisible */
+  pointer-events: none; /* Prevent clicking when invisible */
+  transition: transform 0.1s ease, opacity 0.1s ease; /* Smooth transition for the pop-up effect */
+}
+
+.hamburger-menu.show {
+  transform: scale(1); /* Scale up to the full size */
+  opacity: 1; /* Make it visible */
+  pointer-events: auto; /* Allow clicking when visible */
+}
+
+.hamburger-menu div {
+  width: 60%; /* Make the symbol smaller */
+  height: 3px; /* Make the symbol smaller */
+  background-color: white;
+  margin: 3px 0; /* Add spacing between the lines */
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease; /* Smooth transition for the 'X' effect */
+}
+
+.hamburger-menu.active div:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 5px);
+  width: 60%; /* Extend by 2 pixels on the right side */
+}
+
+.hamburger-menu.active div:nth-child(2) {
+  opacity: 0; /* Hide the middle line */
+}
+
+.hamburger-menu.active div:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -5px); /* Adjust upward to center the 'X' */
+  width: 60%; /* Extend by 2 pixels on the right side */
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+.sidebar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.25rem; /* Adjust padding for better spacing */
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.1); /* Add drop shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 200; /* Ensure it is above other elements */
+  transform: scale(0); /* Start with a small circle */
+  opacity: 0; /* Start with invisible */
+  pointer-events: none; /* Prevent clicking when invisible */
+  transition: transform 0.1s ease, opacity 0.1s ease; /* Smooth transition for the pop-up effect */
+  width: 3rem; /* Make the sidebar thinner */
+}
+
+.sidebar.show {
+  transform: scale(1); /* Scale up to the full size */
+  opacity: 1; /* Make it visible */
+  pointer-events: auto; /* Allow clicking when visible */
+}
+
+.sidebar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem; /* Adjust height */
+  width: 3rem; /* Adjust width */
+  color: #6a778e;
+  transition: 250ms ease all;
+  font-family: 'productsans', sans-serif; /* Use productsans font */
+}
+
+.sidebar__link span {
+  position: absolute;
+  right: 100%; /* Change to right */
+  transform: translate(2.5rem); /* Adjust translate value */
+  margin-right: 0.5rem; /* Adjust margin */
+  opacity: 0;
+  pointer-events: none;
+  color: #147cd1;
+  background: #fff;
+  padding: 0.5rem; /* Reduce padding */
+  transition: opacity 250ms ease, transform 250ms ease; /* Ensure smooth transition */
+  border-radius: 8px; /* Reduce corner radius */
+  font-family: 'productsans', sans-serif; /* Use productsans font */
+  font-size: 0.875rem; /* Make the text a little bit smaller */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add drop shadow */
+}
+
+.sidebar__link:hover span {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.sidebar__link:hover {
+  color: #147cd1;
+  transform: scale(1.2); /* Make the icon larger on hover */
+}
+
+.sidebar__menu {
+  position: relative;
+  list-style: none; /* Remove bullets */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+/* Remove the blue gooey background effect on hover */
+.sidebar__item:last-child:before {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  top: 0;
+  left: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: none; /* Remove background */
+  border-radius: 17.5px;
+  transition: none; /* Remove transition */
+}
+
+.sidebar__item:hover:last-child:before {
+  opacity: 0; /* Ensure it stays hidden */
+  animation: none; /* Remove animation */
+}
+
+.sidebar__link.clicked {
+  color: #147cd1; /* Make the icon stay blue when clicked */
+}
+
+.sidebar__link.clicked ion-icon {
+  color: #147cd1; /* Ensure the icon stays blue when clicked */
+}
+
+/* ...existing code... */
+
+#screen-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: 'productsans', sans-serif;
+  text-align: center;
+}
+
+#screen-warning h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+#screen-warning p {
+  font-size: 1.25rem;
+}
+
+/* ...existing code... */
+
+
