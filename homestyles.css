@@ -204,7 +204,7 @@ border: .1em solid white;
     flex: 1;
     margin-left: 70px;
     margin-right: 70px;
-    max-width: 500px;
+    max-width: 400px; /* Adjusted max-width */
   }
   
   .right_section a {
@@ -261,22 +261,18 @@ border: .1em solid white;
     transition: 0.15s;
   }
   
-  .Home, .About, .Works, .Experiences {
+  .About, .Works, .Experiences {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
     background-color: rgba(34, 49, 78, 0);
-    width: 300px;
+    width: 200px; /* Adjusted width */
     transition: 0.15s;
     position: relative;
   }
   
-  .Home a:hover {
-    transition: 0.15s;
-  }
-
   .About a:hover {
     transition: 0.15s;
   }
