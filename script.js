@@ -75,7 +75,7 @@ class SmoothScroll {
     // Parallax effect with enhanced scaling for mobile
     const parallax = document.querySelector('.parallax .bg');
     if (parallax) {
-      parallax.style.transform = `translateX(-50%) translateY(${this.currentY * 0.3}px)`; // Keep centered while moving
+      parallax.style.transform = `translate(-50%, -50%) translateY(${this.currentY * 0.3}px)`; // Keep centered while moving
     }
 
     requestAnimationFrame(this.animate.bind(this));

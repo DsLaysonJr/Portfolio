@@ -341,11 +341,11 @@ border: .1em solid white;
 
 .parallax .bg {
   position: fixed; /* Change to fixed to stay behind content */
-  top: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: auto;
-  height: 100vh; /* Make it full viewport height */
+  height: 100vh; /* Full viewport height for desktop */
   min-width: 100vw; /* Ensure it covers full width */
   pointer-events: none;
   object-fit: cover; /* Ensure proper scaling */
@@ -370,7 +370,7 @@ border: .1em solid white;
 .maintext p {
   display: inline-block;
   color: white;
-  font-size: 18.5em; /* Increased font size */
+  font-size: 18.5em; /* Default font size for desktop */
   font-family: productsans;
   animation: scrollText 140s linear infinite; /* Slowed down the speed further */
 }

@@ -13,6 +13,10 @@
   .textboxdark2 {
     font-size: 1.2vw;
   }
+  
+  .maintext p {
+    font-size: 18.5em;
+  }
 }
 
 /* Large Screens (1200px to 1439px) */
@@ -122,10 +126,11 @@
   .parallax .bg {
     height: 120vh;
     min-width: 120vw;
+    transform: translate(-50%, -50%);
   }
   
   .maintext p {
-    font-size: 8em;
+    font-size: 10em;
   }
   
   .content1 {
@@ -291,10 +296,11 @@
   .parallax .bg {
     height: 140vh;
     min-width: 140vw;
+    transform: translate(-50%, -50%);
   }
   
   .maintext p {
-    font-size: 5em;
+    font-size: 7em;
   }
   
   .content1 {
@@ -463,10 +469,11 @@
   .parallax .bg {
     height: 160vh;
     min-width: 160vw;
+    transform: translate(-50%, -50%);
   }
   
   .maintext p {
-    font-size: 3.5em;
+    font-size: 5em;
   }
   
   .content1 {
@@ -627,10 +634,11 @@
   .parallax .bg {
     height: 180vh;
     min-width: 180vw;
+    transform: translate(-50%, -50%);
   }
   
   .maintext p {
-    font-size: 2.8em;
+    font-size: 4em;
   }
   
   .textbox {
@@ -707,6 +715,7 @@
   .parallax .bg {
     height: 100vh;
     min-width: 100vw;
+    transform: translate(-50%, -50%);
   }
   
   .maintext p {
