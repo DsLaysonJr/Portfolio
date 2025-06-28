@@ -334,7 +334,7 @@ border: .1em solid white;
 
 .parallax {
   position: relative;
-  height: 20vh; /* Reduced height */
+  height: 20vh; /* Default height for desktop */
   z-index: -1;
   overflow: hidden; /* Ensure content doesn't overflow */
 }
@@ -407,6 +407,7 @@ border: .1em solid white;
 .content3 {
   display: flex;
   padding-top: 20px; /* Add some space above content3 */
+  align-items: flex-start;
 }
 
 /*text/buttons*/
@@ -452,6 +453,7 @@ border: .1em solid white;
   font-size: 1.33vw;
   color: black;
   padding: 60px;
+  flex: 1;
  }
 
  .textboxdark2 h1 {
@@ -462,6 +464,13 @@ border: .1em solid white;
  .textboxdark2 p {
   font-family: productsans;
   font-weight: normal;
+ }
+
+ .spherepadding {
+   flex: 1;
+   display: flex;
+   justify-content: center;
+   align-items: center;
  }
 
 
@@ -957,7 +966,7 @@ transform: translateX(0);
   border-radius: 10px;
   padding: 0.25rem; /* Adjust padding for better spacing */
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.1); /* Add drop shadow */
-  display: flex;
+  display: none; /* Hidden by default on desktop */
   flex-direction: column;
   align-items: center;
   z-index: 200; /* Ensure it is above other elements */

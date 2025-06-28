@@ -88,12 +88,15 @@
 @media (max-width: 991px) and (min-width: 768px) {
   /* Hide desktop navigation */
   .right_section {
-    display: none;
+    display: none !important;
   }
   
   /* Show sidebar navigation */
   .sidebar {
-    display: flex;
+    display: flex !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    pointer-events: auto !important;
   }
   
   .nav_bar {
@@ -110,13 +113,23 @@
     height: 45px;
   }
   
+  /* Increase parallax height for smaller screens */
+  .parallax {
+    height: 35vh;
+  }
+  
   .maintext p {
-    font-size: 10em;
+    font-size: 8em;
   }
   
   .content1 {
     flex-direction: column;
     padding: 20px;
+  }
+  
+  .responsive {
+    order: 2;
+    margin-top: 20px;
   }
   
   .responsive img {
@@ -125,20 +138,54 @@
   }
   
   .textbox {
-    font-size: 2.2vw;
+    order: 1;
+    font-size: 18px;
     padding: 20px;
     text-align: center;
   }
   
+  .textbox h1 {
+    font-size: 24px;
+  }
+  
+  .textbox p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  .typing h1 {
+    font-size: 24px !important;
+  }
+  
   .textboxdark {
-    font-size: 2.2vw;
+    font-size: 18px;
     padding: 40px 30px;
     padding-top: 80px;
+    text-align: center;
+  }
+  
+  .textboxdark h1 {
+    font-size: 28px;
+  }
+  
+  .textboxdark p {
+    font-size: 16px;
+    line-height: 1.6;
   }
   
   .textboxdark2 {
-    font-size: 2.2vw;
+    font-size: 18px;
     padding: 40px 30px;
+    text-align: center;
+  }
+  
+  .textboxdark2 h1 {
+    font-size: 28px;
+  }
+  
+  .textboxdark2 p {
+    font-size: 16px;
+    line-height: 1.6;
   }
   
   .content2 {
@@ -149,6 +196,12 @@
   
   .content3 {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .spherepadding {
+    margin-top: 30px;
   }
   
   .footer {
@@ -175,7 +228,7 @@
   }
   
   .tagcloud {
-    font-size: 22px;
+    font-size: 20px;
   }
   
   .slider {
@@ -192,12 +245,15 @@
 @media (max-width: 767px) and (min-width: 576px) {
   /* Hide desktop navigation */
   .right_section {
-    display: none;
+    display: none !important;
   }
   
   /* Show sidebar navigation */
   .sidebar {
-    display: flex;
+    display: flex !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    pointer-events: auto !important;
   }
   
   .nav_bar {
@@ -218,8 +274,13 @@
     font-size: 1.2rem;
   }
   
+  /* Increase parallax height for mobile */
+  .parallax {
+    height: 45vh;
+  }
+  
   .maintext p {
-    font-size: 6em;
+    font-size: 5em;
   }
   
   .content1 {
@@ -227,25 +288,60 @@
     padding: 15px;
   }
   
+  .responsive {
+    order: 2;
+    margin-top: 20px;
+  }
+  
   .textbox {
-    font-size: 3.5vw;
+    order: 1;
+    font-size: 16px;
     padding: 15px;
     text-align: center;
   }
   
+  .textbox h1 {
+    font-size: 22px;
+  }
+  
+  .textbox p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
   .typing h1 {
-    font-size: 4vw;
+    font-size: 22px !important;
   }
   
   .textboxdark {
-    font-size: 3.5vw;
+    font-size: 16px;
     padding: 30px 20px;
     padding-top: 60px;
+    text-align: center;
+  }
+  
+  .textboxdark h1 {
+    font-size: 24px;
+  }
+  
+  .textboxdark p {
+    font-size: 14px;
+    line-height: 1.6;
   }
   
   .textboxdark2 {
-    font-size: 3.5vw;
+    font-size: 16px;
     padding: 30px 20px;
+    text-align: center;
+  }
+  
+  .textboxdark2 h1 {
+    font-size: 24px;
+  }
+  
+  .textboxdark2 p {
+    font-size: 14px;
+    line-height: 1.6;
   }
   
   .content2 {
@@ -256,6 +352,12 @@
   
   .content3 {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .spherepadding {
+    margin-top: 30px;
   }
   
   .btn, .btndark {
@@ -299,22 +401,21 @@
     height: 130px;
     width: 180px;
   }
-  
-  .parallax {
-    height: 15vh;
-  }
 }
 
 /* Extra Small Screens (up to 575px) - Mobile Portrait */
 @media (max-width: 575px) {
   /* Hide desktop navigation */
   .right_section {
-    display: none;
+    display: none !important;
   }
   
   /* Show sidebar navigation */
   .sidebar {
-    display: flex;
+    display: flex !important;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    pointer-events: auto !important;
   }
   
   .nav_bar {
@@ -337,8 +438,13 @@
     left: 50px;
   }
   
+  /* Significantly increase parallax height for small screens */
+  .parallax {
+    height: 55vh;
+  }
+  
   .maintext p {
-    font-size: 4em;
+    font-size: 3.5em;
   }
   
   .content1 {
@@ -346,25 +452,60 @@
     padding: 10px;
   }
   
+  .responsive {
+    order: 2;
+    margin-top: 20px;
+  }
+  
   .textbox {
-    font-size: 4.5vw;
+    order: 1;
+    font-size: 14px;
     padding: 10px;
     text-align: center;
   }
   
+  .textbox h1 {
+    font-size: 20px;
+  }
+  
+  .textbox p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  
   .typing h1 {
-    font-size: 5.5vw;
+    font-size: 20px !important;
   }
   
   .textboxdark {
-    font-size: 4.5vw;
+    font-size: 14px;
     padding: 25px 15px;
     padding-top: 50px;
+    text-align: center;
+  }
+  
+  .textboxdark h1 {
+    font-size: 22px;
+  }
+  
+  .textboxdark p {
+    font-size: 13px;
+    line-height: 1.6;
   }
   
   .textboxdark2 {
-    font-size: 4.5vw;
+    font-size: 14px;
     padding: 25px 15px;
+    text-align: center;
+  }
+  
+  .textboxdark2 h1 {
+    font-size: 22px;
+  }
+  
+  .textboxdark2 p {
+    font-size: 13px;
+    line-height: 1.6;
   }
   
   .content2 {
@@ -375,6 +516,12 @@
   
   .content3 {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .spherepadding {
+    margin-top: 20px;
   }
   
   .btn, .btndark {
@@ -419,10 +566,6 @@
     width: 150px;
   }
   
-  .parallax {
-    height: 12vh;
-  }
-  
   .preload h1 {
     font-size: 60px;
   }
@@ -451,27 +594,56 @@
 
 /* Very Small Screens (up to 400px) */
 @media (max-width: 400px) {
+  /* Maximize parallax height for very small screens */
+  .parallax {
+    height: 65vh;
+  }
+  
   .maintext p {
-    font-size: 3em;
+    font-size: 2.8em;
   }
   
   .textbox {
-    font-size: 5vw;
+    font-size: 13px;
+  }
+  
+  .textbox h1 {
+    font-size: 18px;
+  }
+  
+  .textbox p {
+    font-size: 12px;
   }
   
   .typing h1 {
-    font-size: 6.5vw;
+    font-size: 18px !important;
   }
   
   .textboxdark {
-    font-size: 5vw;
+    font-size: 13px;
     padding: 20px 10px;
     padding-top: 40px;
   }
   
+  .textboxdark h1 {
+    font-size: 20px;
+  }
+  
+  .textboxdark p {
+    font-size: 12px;
+  }
+  
   .textboxdark2 {
-    font-size: 5vw;
+    font-size: 13px;
     padding: 20px 10px;
+  }
+  
+  .textboxdark2 h1 {
+    font-size: 20px;
+  }
+  
+  .textboxdark2 p {
+    font-size: 12px;
   }
   
   .preload h1 {

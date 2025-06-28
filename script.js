@@ -275,3 +275,39 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     el.style.transform = 'none';
   });
 }
+
+// Update TagCloud settings for responsive design
+window.addEventListener('resize', () => {
+  const sphere = document.querySelector('.Sphere');
+  if (sphere && window.TagCloud) {
+    // Adjust TagCloud radius based on screen size
+    let radius = 325;
+    if (window.innerWidth < 576) {
+      radius = 150;
+    } else if (window.innerWidth < 768) {
+      radius = 200;
+    } else if (window.innerWidth < 992) {
+      radius = 250;
+    }
+    
+    // Recreate TagCloud with new settings
+    const texts = [
+      'HTML', 'CSS', 'JAVASCRIPT',
+      'PHOTOSHOP', 'AFTER EFFECTS', 'CANVA',
+      'FIGMA', 'FILMORA',
+      'C', 'C++', 'JAVA',
+      'VISUAL BASIC', 'PHP', 'MYSQL', 'NOTION'
+    ];
+    
+    sphere.innerHTML = '';
+    TagCloud('.Sphere', texts, {
+      radius: radius,
+      maxSpeed: 'normal',
+      initSpeed: 'fast',
+      direction: 135,
+      keep: true
+    });
+    
+    sphere.style.color = '#FF5733';
+  }
+});
