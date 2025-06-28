@@ -1076,6 +1076,33 @@ transform: translateX(0);
   font-size: 1.25rem;
 }
 
-/* ...existing code... */
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn, .btndark {
+    padding: 12px 24px;
+    font-size: 18px;
+  }
+  
+  .sidebar__link {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+  
+  .logo:hover,
+  .nav_bar .right_section a:hover {
+    transform: none;
+  }
+}
 
+/* Ensure proper box-sizing for all elements */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
+/* Improve text readability on mobile */
+@media (max-width: 768px) {
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}

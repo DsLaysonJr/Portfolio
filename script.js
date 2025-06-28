@@ -18,6 +18,23 @@ class SmoothScroll {
     document.body.style.height = `${this.el.scrollHeight}px`;
     window.addEventListener('scroll', this.onScroll.bind(this));
     window.addEventListener('wheel', this.onWheel.bind(this), { passive: false }); // Prevent default scroll behavior
+    
+    // Add touch support for mobile devices
+    let touchStartY = 0;
+    let touchEndY = 0;
+    
+    window.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    window.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      touchEndY = e.touches[0].clientY;
+      const deltaY = (touchStartY - touchEndY) * 2; // Multiply for more sensitivity
+      this.targetY += deltaY;
+      this.targetY = Math.min(Math.max(this.targetY, 0), this.maxScrollY);
+      touchStartY = touchEndY;
+    }, { passive: false });
   }
 
   onScroll() {
@@ -42,9 +59,11 @@ class SmoothScroll {
     this.currentY = Math.min(Math.max(this.currentY, 0), this.maxScrollY); // Limit the translate3d value
     this.el.style.transform = `translate3d(0, -${this.currentY}px, 0)`;
 
-    // Show or hide the sidebar based on scroll position
-    if (this.currentY >= 100) {
+    // Show or hide the sidebar based on scroll position and screen size
+    if (this.currentY >= 100 && window.innerWidth < 992) {
       this.sidebar.classList.add('show');
+    } else if (window.innerWidth >= 992) {
+      this.sidebar.classList.remove('show');
     } else {
       this.sidebar.classList.remove('show');
     }
@@ -105,7 +124,7 @@ class SmoothScroll {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  // Add screen size warning
+  // Add screen size warning - updated threshold for better mobile experience
   checkScreenSize();
   window.addEventListener('resize', checkScreenSize);
 
@@ -165,46 +184,48 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Navbar hover effect
-  const navLinks = document.querySelectorAll('.right_section a');
+  // Navbar hover effect - only on desktop
+  if (window.innerWidth >= 992) {
+    const navLinks = document.querySelectorAll('.right_section a');
 
-  navLinks.forEach(link => {
-    link.addEventListener('mousemove', (e) => {
-      const rect = link.getBoundingClientRect();
+    navLinks.forEach(link => {
+      link.addEventListener('mousemove', (e) => {
+        const rect = link.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        link.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        link.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
+      });
+
+      link.addEventListener('mouseleave', () => {
+        link.style.transform = 'translate(0, 0)';
+        link.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
+      });
+    });
+
+    // Logo hover effect - only on desktop
+    const logo = document.querySelector('.logo');
+    const logoText = document.querySelector('.logo-text');
+
+    logo.addEventListener('mousemove', (e) => {
+      const rect = logo.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      link.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-      link.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
+      logo.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+      logo.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
+      logoText.style.transform = `translate(${10 + x * 0.1}px, -50%)`; // Move the text with the logo
     });
 
-    link.addEventListener('mouseleave', () => {
-      link.style.transform = 'translate(0, 0)';
-      link.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
+    logo.addEventListener('mouseleave', () => {
+      logo.style.transform = 'translate(0, 0)';
+      logo.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
+      logoText.style.transform = 'translate(10px, -50%)'; // Reset the text position
     });
-  });
 
-  // Logo hover effect
-  const logo = document.querySelector('.logo');
-  const logoText = document.querySelector('.logo-text');
-
-  logo.addEventListener('mousemove', (e) => {
-    const rect = logo.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    logo.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-    logo.style.transition = 'transform 0.1s ease'; // Smooth transition while moving
-    logoText.style.transform = `translate(${10 + x * 0.1}px, -50%)`; // Move the text with the logo
-  });
-
-  logo.addEventListener('mouseleave', () => {
-    logo.style.transform = 'translate(0, 0)';
-    logo.style.transition = 'transform 0.5s ease'; // Smooth transition back to original place
-    logoText.style.transform = 'translate(10px, -50%)'; // Reset the text position
-  });
-
-  logoText.addEventListener('mousemove', (e) => {
-    e.stopPropagation(); // Prevent the hover effect on the text itself
-  });
+    logoText.addEventListener('mousemove', (e) => {
+      e.stopPropagation(); // Prevent the hover effect on the text itself
+    });
+  }
 
   // Make the logo clickable to reload the page
   const logoLink = document.querySelector('.logo-link');
@@ -216,32 +237,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function checkScreenSize() {
   const warning = document.getElementById('screen-warning');
-  if (window.innerWidth < 1280) {
-    if (!warning) {
-      const warningDiv = document.createElement('div');
-      warningDiv.id = 'screen-warning';
-      warningDiv.style.position = 'fixed';
-      warningDiv.style.top = '0';
-      warningDiv.style.left = '0';
-      warningDiv.style.width = '100%';
-      warningDiv.style.height = '100%';
-      warningDiv.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-      warningDiv.style.color = 'white';
-      warningDiv.style.display = 'flex';
-      warningDiv.style.flexDirection = 'column';
-      warningDiv.style.justifyContent = 'center';
-      warningDiv.style.alignItems = 'center';
-      warningDiv.style.zIndex = '1000';
-      warningDiv.innerHTML = `
-        <h1>Oops! Your screen is a bit small</h1>
-        <p>For the best experience, try using a larger screen or adjusting your window size.</p>
-      `;
-      document.body.appendChild(warningDiv);
-    }
-  } else {
-    if (warning) {
-      warning.remove();
-    }
+  // Removed the screen size warning as we're now making it responsive
+  if (warning) {
+    warning.remove();
   }
 }
 
@@ -259,5 +257,21 @@ const observer = new IntersectionObserver((entries) => {
 const hiddenElements = document.querySelectorAll('.hidden');
 hiddenElements.forEach((el) => observer.observe(el));
 
+// Handle orientation changes on mobile
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
+});
 
-
+// Optimize performance for mobile devices
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  // Reduce animation complexity on mobile
+  document.documentElement.style.setProperty('--animation-duration', '0.5s');
+  
+  // Disable parallax on mobile for better performance
+  const parallaxElements = document.querySelectorAll('.parallax');
+  parallaxElements.forEach(el => {
+    el.style.transform = 'none';
+  });
+}
