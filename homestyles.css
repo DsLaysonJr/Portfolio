@@ -342,11 +342,13 @@ border: .1em solid white;
 .parallax .bg {
   position: fixed; /* Change to fixed to stay behind content */
   top: 0;
-  left: 0;
-  width: 100%;
-  height: auto; /* Ensure the aspect ratio is maintained */
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100vh; /* Make it full viewport height */
+  min-width: 100vw; /* Ensure it covers full width */
   pointer-events: none;
-  transform: translateY(0); /* Initial position */
+  object-fit: cover; /* Ensure proper scaling */
   transition: transform 0.1s linear; /* Smooth transition */
 }
 
@@ -981,6 +983,14 @@ transform: translateX(0);
   transform: scale(1); /* Scale up to the full size */
   opacity: 1; /* Make it visible */
   pointer-events: auto; /* Allow clicking when visible */
+}
+
+/* Hide sidebar during preloader */
+body.preload-active .sidebar {
+  display: none !important;
+  opacity: 0 !important;
+  transform: scale(0) !important;
+  pointer-events: none !important;
 }
 
 .sidebar__link {

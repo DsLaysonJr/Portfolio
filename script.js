@@ -60,7 +60,8 @@ class SmoothScroll {
     this.el.style.transform = `translate3d(0, -${this.currentY}px, 0)`;
 
     // Show or hide the sidebar based on scroll position and screen size
-    if (this.currentY >= 100 && window.innerWidth < 992) {
+    // Only show sidebar if not in preloader and on mobile screens
+    if (this.currentY >= 100 && window.innerWidth < 992 && !document.body.classList.contains('preload-active')) {
       this.sidebar.classList.add('show');
     } else if (window.innerWidth >= 992) {
       this.sidebar.classList.remove('show');
@@ -71,10 +72,10 @@ class SmoothScroll {
     // Ensure the sidebar follows the screen
     this.sidebar.style.transform = `translateY(${this.currentY}px)`;
 
-    // Parallax effect
+    // Parallax effect with enhanced scaling for mobile
     const parallax = document.querySelector('.parallax .bg');
     if (parallax) {
-      parallax.style.transform = `translateY(${this.currentY * 0.3}px)`; // Adjust the speed here
+      parallax.style.transform = `translateX(-50%) translateY(${this.currentY * 0.3}px)`; // Keep centered while moving
     }
 
     requestAnimationFrame(this.animate.bind(this));
@@ -157,8 +158,12 @@ window.addEventListener('DOMContentLoaded', () => {
         count.style.transition = "all ease 1s";
 
         clearInterval(preloading);
-        document.body.classList.remove('preload-active'); // Remove class to allow scrolling
-        document.querySelector('.smooth-scroll').classList.remove('preload-active'); // Remove class to allow scrolling
+        
+        // Remove preloader classes to allow sidebar to show
+        setTimeout(() => {
+          document.body.classList.remove('preload-active');
+          document.querySelector('.smooth-scroll').classList.remove('preload-active');
+        }, 2800); // Wait for preloader animation to complete
 
         // Initialize SmoothScroll and event listeners after preloader is finished
         const smoothScroll = new SmoothScroll(document.querySelector('.smooth-scroll'));

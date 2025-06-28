@@ -118,6 +118,12 @@
     height: 35vh;
   }
   
+  /* Scale background image larger on smaller screens */
+  .parallax .bg {
+    height: 120vh;
+    min-width: 120vw;
+  }
+  
   .maintext p {
     font-size: 8em;
   }
@@ -130,6 +136,8 @@
   .responsive {
     order: 2;
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
   
   .responsive img {
@@ -279,6 +287,12 @@
     height: 45vh;
   }
   
+  /* Scale background image even larger on mobile */
+  .parallax .bg {
+    height: 140vh;
+    min-width: 140vw;
+  }
+  
   .maintext p {
     font-size: 5em;
   }
@@ -291,6 +305,8 @@
   .responsive {
     order: 2;
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
   
   .textbox {
@@ -443,6 +459,12 @@
     height: 55vh;
   }
   
+  /* Scale background image much larger on small screens */
+  .parallax .bg {
+    height: 160vh;
+    min-width: 160vw;
+  }
+  
   .maintext p {
     font-size: 3.5em;
   }
@@ -455,6 +477,8 @@
   .responsive {
     order: 2;
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
   
   .textbox {
@@ -599,6 +623,12 @@
     height: 65vh;
   }
   
+  /* Scale background image to maximum on very small screens */
+  .parallax .bg {
+    height: 180vh;
+    min-width: 180vw;
+  }
+  
   .maintext p {
     font-size: 2.8em;
   }
@@ -672,6 +702,11 @@
 @media (max-height: 500px) and (orientation: landscape) {
   .parallax {
     height: 25vh;
+  }
+  
+  .parallax .bg {
+    height: 100vh;
+    min-width: 100vw;
   }
   
   .maintext p {
