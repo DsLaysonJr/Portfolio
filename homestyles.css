@@ -334,19 +334,19 @@ border: .1em solid white;
 
 .parallax {
   position: relative;
-  height: 20vh; /* Default height for desktop */
+  height: 100vh; /* Full viewport height for proper coverage */
   z-index: -1;
   overflow: hidden; /* Ensure content doesn't overflow */
 }
 
 .parallax .bg {
-  position: fixed; /* Change to fixed to stay behind content */
+  position: absolute; /* Change back to absolute for proper positioning */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: auto;
-  height: 100vh; /* Full viewport height for desktop */
-  min-width: 100vw; /* Ensure it covers full width */
+  height: 120vh; /* Slightly larger than viewport */
+  min-width: 120vw; /* Ensure it covers full width with margin */
   pointer-events: none;
   object-fit: cover; /* Ensure proper scaling */
   transition: transform 0.1s linear; /* Smooth transition */

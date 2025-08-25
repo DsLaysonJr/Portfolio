@@ -119,14 +119,13 @@
   
   /* Increase parallax height for smaller screens */
   .parallax {
-    height: 35vh;
+    height: 100vh;
   }
   
   /* Scale background image larger on smaller screens */
   .parallax .bg {
-    height: 120vh;
-    min-width: 120vw;
-    transform: translate(-50%, -50%);
+    height: 140vh;
+    min-width: 140vw;
   }
   
   .maintext p {
@@ -289,14 +288,13 @@
   
   /* Increase parallax height for mobile */
   .parallax {
-    height: 45vh;
+    height: 100vh;
   }
   
   /* Scale background image even larger on mobile */
   .parallax .bg {
-    height: 140vh;
-    min-width: 140vw;
-    transform: translate(-50%, -50%);
+    height: 160vh;
+    min-width: 160vw;
   }
   
   .maintext p {
@@ -462,14 +460,13 @@
   
   /* Significantly increase parallax height for small screens */
   .parallax {
-    height: 55vh;
+    height: 100vh;
   }
   
   /* Scale background image much larger on small screens */
   .parallax .bg {
-    height: 160vh;
-    min-width: 160vw;
-    transform: translate(-50%, -50%);
+    height: 180vh;
+    min-width: 180vw;
   }
   
   .maintext p {
@@ -627,14 +624,13 @@
 @media (max-width: 400px) {
   /* Maximize parallax height for very small screens */
   .parallax {
-    height: 65vh;
+    height: 100vh;
   }
   
   /* Scale background image to maximum on very small screens */
   .parallax .bg {
-    height: 180vh;
-    min-width: 180vw;
-    transform: translate(-50%, -50%);
+    height: 200vh;
+    min-width: 200vw;
   }
   
   .maintext p {
@@ -709,13 +705,12 @@
 /* Landscape orientation adjustments for mobile */
 @media (max-height: 500px) and (orientation: landscape) {
   .parallax {
-    height: 25vh;
+    height: 100vh;
   }
   
   .parallax .bg {
-    height: 100vh;
-    min-width: 100vw;
-    transform: translate(-50%, -50%);
+    height: 120vh;
+    min-width: 120vw;
   }
   
   .maintext p {
