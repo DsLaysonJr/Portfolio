@@ -126,7 +126,7 @@
   .parallax .bg {
     height: 140vh;
     min-width: 140vw;
-    transform: translate(-50%, -35%) !important; /* Ensure face is visible on tablets */
+    transform: translate(-50%, -50%) !important;
   }
   
   .maintext p {
@@ -296,7 +296,7 @@
   .parallax .bg {
     height: 160vh;
     min-width: 160vw;
-    transform: translate(-50%, -30%) !important; /* Ensure face is visible on mobile landscape */
+    transform: translate(-50%, -50%) !important;
   }
   
   .maintext p {
@@ -469,7 +469,7 @@
   .parallax .bg {
     height: 180vh;
     min-width: 180vw;
-    transform: translate(-50%, -25%) !important; /* Ensure face is visible on mobile portrait */
+    transform: translate(-50%, -50%) !important;
   }
   
   .maintext p {
@@ -634,7 +634,7 @@
   .parallax .bg {
     height: 200vh;
     min-width: 200vw;
-    transform: translate(-50%, -20%) !important; /* Ensure face is visible on very small screens */
+    transform: translate(-50%, -50%) !important;
   }
   
   .maintext p {
@@ -715,7 +715,7 @@
   .parallax .bg {
     height: 120vh;
     min-width: 120vw;
-    transform: translate(-50%, -35%) !important; /* Ensure face is visible in landscape */
+    transform: translate(-50%, -50%) !important;
   }
   
   .maintext p {
