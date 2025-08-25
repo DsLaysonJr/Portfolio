@@ -75,7 +75,19 @@ class SmoothScroll {
     // Parallax effect with enhanced scaling for mobile
     const parallax = document.querySelector('.parallax .bg');
     if (parallax) {
-      parallax.style.transform = `translate(-50%, -50%) translateY(${this.currentY * 0.3}px)`; // Keep centered while moving
+      // Get the base transform value based on screen size
+      let baseTransformY = -40; // Default for desktop
+      if (window.innerWidth < 400) {
+        baseTransformY = -20; // Very small screens
+      } else if (window.innerWidth < 576) {
+        baseTransformY = -25; // Mobile portrait
+      } else if (window.innerWidth < 768) {
+        baseTransformY = -30; // Mobile landscape
+      } else if (window.innerWidth < 992) {
+        baseTransformY = -35; // Tablet
+      }
+      
+      parallax.style.transform = `translate(-50%, ${baseTransformY}%) translateY(${this.currentY * 0.3}px)`; // Keep face visible while moving
     }
 
     requestAnimationFrame(this.animate.bind(this));
