@@ -343,7 +343,6 @@ border: .1em solid white;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   width: auto;
   height: 120vh;
   min-width: 120vw;
