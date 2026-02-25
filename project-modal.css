@@ -1,0 +1,268 @@
+.project-modal {
+  display: none;
+  position: fixed;
+  z-index: 500;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease;
+  overflow-y: auto;
+}
+
+.project-modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: white;
+  max-width: 700px;
+  width: 90%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #147cd1 0%, #0f5fa8 100%);
+}
+
+.modal-header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 40px;
+}
+
+.modal-title {
+  font-family: productsans;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.modal-category {
+  display: inline-block;
+  background-color: #147cd1;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: productsans;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.modal-description {
+  font-family: productsans;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.modal-section {
+  margin-bottom: 25px;
+}
+
+.modal-section-title {
+  font-family: productsans;
+  font-weight: bold;
+  color: #333;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.modal-section-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background-color: #147cd1;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.technologies-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tech-badge {
+  background-color: #f0f4f8;
+  color: #147cd1;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: productsans;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid #147cd1;
+}
+
+.achievements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.achievements-list li {
+  font-family: productsans;
+  color: #555;
+  padding: 8px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.achievements-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #147cd1;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.slide {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slide:hover {
+  opacity: 0.8;
+}
+
+.slide.clickable {
+  position: relative;
+}
+
+.slide.clickable::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(20, 124, 209, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 6px;
+}
+
+.slide.clickable:hover::after {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    max-height: 85vh;
+  }
+
+  .modal-header {
+    height: 200px;
+  }
+
+  .modal-body {
+    padding: 25px;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-description {
+    font-size: 0.95rem;
+  }
+
+  .modal-section-title {
+    font-size: 1rem;
+  }
+
+  .tech-badge {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+  }
+
+  .modal-description {
+    font-size: 0.9rem;
+  }
+
+  .technologies-list {
+    gap: 8px;
+  }
+
+  .tech-badge {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+  }
+}

@@ -5,11 +5,16 @@
          <title>Dennis Layson Jr.</title>
          <link rel="stylesheet" href="homestyles.css">
          <link rel="stylesheet" href="breakpoints.css">
+         <link rel="stylesheet" href="contact-styles.css">
+         <link rel="stylesheet" href="project-modal.css">
          <link rel="shortcut icon" type="images/png" href="favicon.png">
 <!--JS for Scroll-->
+         <script defer src="projects.js"></script>
          <script defer src="script.js"></script>
          <script defer src="Smoothscroll.js"></script>
-         <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>    
+         <script defer src="project-modal.js"></script>
+         <script defer src="contact-form.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
          <script src="https://cdn.jsdelivr.net/npm/TagCloud@2.2.0/dist/TagCloud.min.js"> </script>
          <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
      </head>
@@ -116,107 +121,107 @@
         <div class="slide-track">
 
           <div class="slide">
-            <img src="portfolio/1.png">
+            <img src="portfolio/1.png" data-project-id="1">
           </div>
           <div class="slide">
-            <img src="portfolio/2.png">
+            <img src="portfolio/2.png" data-project-id="2">
           </div>
           <div class="slide">
-            <img src="portfolio/3.jpg">
+            <img src="portfolio/3.jpg" data-project-id="3">
           </div>
           <div class="slide">
-            <img src="portfolio/4.jpg">
+            <img src="portfolio/4.jpg" data-project-id="4">
           </div>
           <div class="slide">
-            <img src="portfolio/5.jpg">
+            <img src="portfolio/5.jpg" data-project-id="5">
           </div>
           <div class="slide">
-            <img src="portfolio/6.jpg">
+            <img src="portfolio/6.jpg" data-project-id="6">
           </div>
           <div class="slide">
-            <img src="portfolio/7.jpg">
+            <img src="portfolio/7.jpg" data-project-id="7">
           </div>
           <div class="slide">
-            <img src="portfolio/8.png">
+            <img src="portfolio/8.png" data-project-id="8">
           </div>
           <div class="slide">
-            <img src="portfolio/9.jpg">
+            <img src="portfolio/9.jpg" data-project-id="9">
           </div>
           <div class="slide">
-            <img src="portfolio/10.png">
+            <img src="portfolio/10.png" data-project-id="10">
           </div>
           <div class="slide">
-            <img src="portfolio/11.png">
+            <img src="portfolio/11.png" data-project-id="1">
           </div>
           <div class="slide">
-            <img src="portfolio/12.jpg">
+            <img src="portfolio/12.jpg" data-project-id="2">
           </div>
           <div class="slide">
-            <img src="portfolio/13.png">
+            <img src="portfolio/13.png" data-project-id="3">
           </div>
           <div class="slide">
-            <img src="portfolio/14.png">
+            <img src="portfolio/14.png" data-project-id="4">
           </div>
           <div class="slide">
-            <img src="portfolio/15.jpg">
+            <img src="portfolio/15.jpg" data-project-id="5">
           </div>
           <div class="slide">
-            <img src="portfolio/16.png">
+            <img src="portfolio/16.png" data-project-id="6">
           </div>
           <div class="slide">
-            <img src="portfolio/17.jpg">
+            <img src="portfolio/17.jpg" data-project-id="7">
           </div>
 
           <div class="slide">
-            <img src="portfolio/1.png">
+            <img src="portfolio/1.png" data-project-id="1">
           </div>
           <div class="slide">
-            <img src="portfolio/2.png">
+            <img src="portfolio/2.png" data-project-id="2">
           </div>
           <div class="slide">
-            <img src="portfolio/3.jpg">
+            <img src="portfolio/3.jpg" data-project-id="3">
           </div>
           <div class="slide">
-            <img src="portfolio/4.jpg">
+            <img src="portfolio/4.jpg" data-project-id="4">
           </div>
           <div class="slide">
-            <img src="portfolio/5.jpg">
+            <img src="portfolio/5.jpg" data-project-id="5">
           </div>
           <div class="slide">
-            <img src="portfolio/6.jpg">
+            <img src="portfolio/6.jpg" data-project-id="6">
           </div>
           <div class="slide">
-            <img src="portfolio/7.jpg">
+            <img src="portfolio/7.jpg" data-project-id="7">
           </div>
           <div class="slide">
-            <img src="portfolio/8.png">
+            <img src="portfolio/8.png" data-project-id="8">
           </div>
           <div class="slide">
-            <img src="portfolio/9.jpg">
+            <img src="portfolio/9.jpg" data-project-id="9">
           </div>
           <div class="slide">
-            <img src="portfolio/10.png">
+            <img src="portfolio/10.png" data-project-id="10">
           </div>
           <div class="slide">
-            <img src="portfolio/11.png">
+            <img src="portfolio/11.png" data-project-id="1">
           </div>
           <div class="slide">
-            <img src="portfolio/12.jpg">
+            <img src="portfolio/12.jpg" data-project-id="2">
           </div>
           <div class="slide">
-            <img src="portfolio/13.png">
+            <img src="portfolio/13.png" data-project-id="3">
           </div>
           <div class="slide">
-            <img src="portfolio/14.png">
+            <img src="portfolio/14.png" data-project-id="4">
           </div>
           <div class="slide">
-            <img src="portfolio/15.jpg">
+            <img src="portfolio/15.jpg" data-project-id="5">
           </div>
           <div class="slide">
-            <img src="portfolio/16.png">
+            <img src="portfolio/16.png" data-project-id="6">
           </div>
           <div class="slide">
-            <img src="portfolio/17.jpg">
+            <img src="portfolio/17.jpg" data-project-id="7">
           </div>
         </div>
 
@@ -280,6 +285,62 @@
     </div>
   </div>
 
+
+    <!--project modal-->
+    <div id="projectModal" class="project-modal">
+      <div class="modal-content"></div>
+    </div>
+
+    <!--contact section-->
+    <div class="contact-section">
+      <div class="contact-container">
+        <h2 class="contact-title">Get In Touch</h2>
+        <p class="contact-description">
+          Have a project in mind or want to collaborate? I'd love to hear from you! Send me a message and I'll get back to you as soon as possible.
+        </p>
+
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" required placeholder="John Doe">
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" id="email" name="email" required placeholder="john@example.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required placeholder="Project Inquiry">
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required placeholder="Tell me about your project..."></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Send Message</button>
+          <div id="formMessage" class="form-message"></div>
+        </form>
+
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <h3>Email</h3>
+            <p><a href="mailto:dennislaysonjr3@gmail.com">dennislaysonjr3@gmail.com</a></p>
+          </div>
+          <div class="contact-info-item">
+            <h3>Location</h3>
+            <p>Manila, Philippines</p>
+          </div>
+          <div class="contact-info-item">
+            <h3>Social</h3>
+            <p><a href="https://www.linkedin.com/in/dennis-layson-jr-462850308/" target="_blank">LinkedIn</a> • <a href="https://github.com/DsLaysonJr" target="_blank">GitHub</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!--here footer-->
     <div class="footer">
