@@ -1,0 +1,1114 @@
+/* Master styles */
+html, body {
+	height: 100%;
+	margin: 0px;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: hidden; /* Hide scrollbar */
+    scroll-behavior: smooth;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom square cursor — desktop (fine pointer) only, see script.js */
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active a,
+  body.custom-cursor-active button {
+    cursor: none;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  background-color: #ffffff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 10001; /* above .sticker-trail (10000), which itself needs to sit above .preload (9999) to show during loading */
+  opacity: 0;
+  will-change: transform;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease, clip-path 0.35s ease;
+}
+
+.custom-cursor.is-visible {
+  opacity: 1;
+}
+
+.custom-cursor.is-hovering {
+  width: 6px;
+  height: 6px;
+  opacity: 0;
+}
+
+.custom-cursor.is-music-hover {
+  width: 20px;
+  height: 20px;
+  /* Same 4-point count as the base square (clip-path can only morph smoothly
+     between polygons with matching vertex counts) — the two middle points
+     are collapsed onto the same spot to form the triangle's tip. */
+  clip-path: polygon(20% 0%, 90% 50%, 90% 50%, 20% 100%);
+  opacity: 1;
+}
+
+/* Cursor sticker trail — see stickers.js. Active only during the preloader,
+   so it needs to sit above .preload's white background (z-index 9999). */
+.sticker-trail {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10000;
+}
+
+.sticker-trail-item {
+  position: absolute;
+  width: 180px;
+  height: auto;
+  transform: translate(-50%, -50%) scale(0.4) rotate(var(--rotate, 0deg));
+  opacity: 0;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  will-change: transform, opacity;
+}
+
+.sticker-trail-item.is-visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) rotate(var(--rotate, 0deg));
+}
+
+.sticker-trail-item.is-leaving {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6) rotate(var(--rotate, 0deg));
+}
+
+/*preloader*/
+.preload * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.preload {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: #ffffff;
+  pointer-events: none;
+  transition: transform 1s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.preload__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+.preload__logo {
+  width: 64px;
+  height: auto;
+  opacity: 0.9;
+}
+
+.preload__count {
+  position: absolute;
+  right: 48px;
+  bottom: 32px;
+  font-family: "productsans", sans-serif;
+  font-weight: 700;
+  color: #147cd1;
+  font-size: 160px;
+  line-height: 1;
+  letter-spacing: -2px;
+  opacity: 0.3;
+}
+
+.preload.is-done {
+  transform: translateY(-100%);
+}
+
+.preload.is-done .preload__inner,
+.preload.is-done .preload__count {
+  opacity: 0;
+}
+
+body.preload-active {
+  overflow: hidden !important; /* Prevent scrolling */
+}
+
+/* Suspend hover/click hit-testing while the fake-scroll transform is still moving content
+   under a stationary pointer — see smoothscroll.js animate(). Without this, elements sliding
+   past the cursor register as real mouseover/mouseout and the custom cursor/hover states flicker. */
+body.is-scrolling .nav_bar .right_section,
+body.is-scrolling .sidebar,
+body.is-scrolling .content2 {
+  pointer-events: none;
+}
+
+.smooth-scroll.preload-active {
+  overflow: hidden !important; /* Prevent scrolling */
+}
+
+/*fonts*/
+@font-face {
+  font-family: 'productsans';
+  src: url("../fonts/Product Sans Regular.ttf");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'productsans';
+  src: url("../fonts/Product Sans Bold.ttf");
+  font-style: normal;
+  font-weight: 700;
+}
+
+/*scrollbar*/
+
+::-webkit-scrollbar {
+width: .5em;
+
+}
+
+::-webkit-scrollbar-track {
+  position: absolute;
+  z-index: 99;
+  background: white;
+  border-radius: 100vw;
+  margin-block: .5em;
+  }
+
+::-webkit-scrollbar-thumb {
+background: gray;
+border-radius: 100vw;
+border: .1em solid white;
+
+}
+
+
+/* Nav styles */
+.nav_bar {
+    height: 90px;
+    background: transparent;
+    font-family: productsans;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  
+  .left_section {
+    /* Sticky: lives outside .smooth-scroll (see index.html) so this
+       position:fixed is relative to the real viewport, not the transformed
+       wrapper — stays put across the whole page without any JS involved. */
+    position: fixed;
+    top: 0;
+    left: 40px;
+    width: 200px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    color: white;
+    z-index: 300;
+  }
+
+  .logo {
+    height: 60px;
+    border-radius: 60px;
+    margin-right: 15px;
+    transition: transform 0.1s ease, filter 0.3s ease; /* Smooth transition while moving */
+  }
+
+  .logo:hover {
+    transform: none; /* Remove transform effect */
+  }
+
+  .logo-text {
+    position: absolute;
+    left: 80px; /* Adjust the distance from the logo */
+    top: 50%;
+    transform: translateY(-50%) translateX(-20px); /* Start shifted left so it slides in toward the right */
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s ease; /* Smooth transition for text */
+    font-family: productsans;
+    font-weight: bold;
+    font-size: 1.5rem; /* Adjust the font size */
+    color: white;
+    pointer-events: none; /* Prevent the text from being hovered */
+  }
+
+  .left_section:hover .logo-text {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0); /* Slide to resting position while fading in */
+  }
+
+  /* Toggled by script.js's SmoothScroll.animate() once the logo has scrolled
+     onto the white content background below the hero, so it stays visible
+     instead of disappearing (white-on-white). */
+  .left_section.on-light .logo {
+    filter: brightness(0);
+  }
+
+  .left_section.on-light .logo-text {
+    color: #2E2D32;
+  }
+  
+  .right_section {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+    margin-left: auto; /* .nav_bar's only child now that the logo moved out — push it to the right edge instead of space-between collapsing to flex-start */
+    margin-right: 70px;
+    max-width: 400px; /* Adjusted max-width */
+  }
+  
+  .right_section a {
+  color: white; 
+  text-decoration:none;
+  transition: color 0.5s;
+  transition: 0.15s;
+  }
+
+  .nav_bar .right_section a {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    transition: color 0.5s;
+    display: inline-block; /* Ensure the underline is only as long as the word */
+  }
+  
+  .nav_bar .right_section a .link_text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    transition: width 0.4s ease;
+    -webkit-transition: width 0.4s ease;
+  }
+
+  .nav_bar .right_section a:hover .link_text::after {
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+  }
+  
+  .nav_bar .right_section a.link_nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(34, 49, 78, 0);
+    transition: 0.15s;
+    height: 100%;
+    width: 100%;
+  }
+
+  .link_text {
+    display: block;
+    text-align: center;
+    position: relative;
+    transition: 0.15s;
+  }
+
+  .About, .Works, .Contact {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: rgba(34, 49, 78, 0);
+    width: 200px; /* Adjusted width */
+    height: 100%; /* Fill the nav bar so the whole item is hoverable — no dead zone around .link_nav for the cursor to flicker in */
+    transition: 0.15s;
+    position: relative;
+  }
+  
+  .About a:hover {
+    transition: 0.15s;
+  }
+  
+  .Works a:hover {
+    transition: 0.15s;
+  }
+  .Contact a:hover {
+    transition: 0.15s;
+  }
+  
+  .right_section {
+    width: 120px;
+    margin-right: 50px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #Home {
+    scroll-margin-block-start: 50vh;
+    scroll-margin-block-end: 150vh;
+    
+  }
+
+  #About {
+    scroll-margin-block-start: 30vh;
+    scroll-margin-block-end: 150vh;
+    
+  }
+
+  #Works {
+    scroll-margin-block-start: 20vh;
+    scroll-margin-block-end: 150vh;
+    
+  }
+  
+  #Contact {
+    scroll-margin-block-start: 25vh;
+    scroll-margin-block-end: 175vh;
+
+  }
+
+ /*backgrounds*/
+ .gridbg {
+  background-color: #ffffff;
+  position: relative;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Add subtle drop shadow */
+}
+
+.parallax {
+  position: relative;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.parallax .bg {
+  position: absolute;
+  top: 0; /* Anchor to the section top — the oversized box hangs below, where the parallax slide reveals it */
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100vh; /* Exactly viewport-sized: the parallax slides the image down while the section scrolls away faster, so no oversize is needed — and less oversize = less zoom on the face */
+  min-width: 100vw;
+  pointer-events: none;
+  object-fit: cover; /* Ensure proper scaling */
+  object-position: 50% 0%; /* Anchor crop to the very top so the head is never cut off */
+  transition: transform 0.1s linear; /* Smooth transition */
+}
+
+.headset-hotspot {
+  position: absolute;
+  /* Estimated from visual inspection of parallax/hero.png (headset at ~43-60% width,
+     ~6-26% height of the natural image), cross-checked against the rendered .bg box's
+     actual geometry (object-fit: cover scale factor) and padded for hover forgiveness. */
+  left: 40%;
+  top: 7%;
+  width: 22%;
+  height: 33%;
+  z-index: 3;
+}
+
+.maintext {
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* Definite height so the child's absolute bottom offset below is anchored to the hero, not an auto-sized box */
+  z-index: 2;
+  background: transparent;
+  margin-bottom: 0; /* Reduced space under the maintext */
+  pointer-events: none;
+}
+
+.maintext p {
+  position: absolute;
+  left: 0;
+  bottom: -0.7em; /* -1em would sit flush with the hero's bottom edge (the font's internal line metrics add ~1em of phantom space below the glyphs); -0.7em lifts the text for breathing room above the next section */
+  display: inline-block;
+  color: white;
+  font-size: 13em; /* Default font size for desktop */
+  line-height: 1; /* Avoid the font's oversized default leading pushing text away from bottom:0 */
+  font-family: productsans;
+  animation: scrollText 140s linear infinite; /* Slowed down the speed further */
+}
+
+.maintext p::before,
+.maintext p::after {
+  content: " Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. — Dennis Layson Jr. —";
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.content1 {
+ background-color: #ffffff;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ width: 100%;
+ margin: auto;
+ padding: 180px 40px 120px;
+}
+
+.content2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 94%;
+  max-width: 2400px;
+  margin: 0 auto;
+  padding: 40px 40px;
+}
+
+.work-row {
+  position: relative;
+  width: 100%;
+  height: 9vw;
+  cursor: pointer;
+}
+
+.work-row img,
+.work-row video {
+  display: none;
+}
+
+.work-title {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  right: 15%;
+  width: auto;
+  transform: translate(0, -50%);
+  margin: 0;
+  text-align: center;
+  opacity: 0.1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.work-row:hover .work-title {
+  opacity: 1;
+  transform: translate(20px, -50%);
+}
+
+.work-title-fit {
+  display: inline-block;
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: 7vw;
+  line-height: 1;
+  text-transform: uppercase;
+  color: #2E2D32;
+  white-space: nowrap;
+}
+
+.work-category,
+.work-year {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: 0.9vw;
+  line-height: 1;
+  color: #2E2D32;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.work-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 375px; /* 1080x1350 (4:5) crop ratio */
+  margin-left: -150px;
+  margin-top: -187.5px;
+  pointer-events: none;
+  z-index: 9998;
+  will-change: transform;
+}
+
+.work-preview-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.work-preview.is-visible .work-preview-inner {
+  opacity: 1;
+}
+
+.work-preview-img,
+.work-preview-video {
+  /* Only exist to hold/decode the source the canvas tiles paint from — the
+     tiles do all the visible rendering, so these stay invisible. */
+  display: none;
+}
+
+/* Pixel-mosaic reveal: a grid of small <canvas> tiles, each painted (in JS)
+   with its own slice of the current row's media — photo or video — starts
+   fully transparent and pops in at its own randomized delay, so the media
+   assembles itself out of scattered squares rather than fading/wiping in as
+   a whole. Video tiles are repainted every frame for live motion. */
+.work-preview-tiles {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.work-preview-tile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: none; /* snaps back instantly when the preview hides, so the next hover starts fully transparent */
+}
+
+.work-preview.is-visible .work-preview-tile {
+  opacity: 1;
+  transition: opacity 0.01s;
+  transition-delay: var(--delay, 0s);
+}
+
+/*text/buttons*/
+
+.aboutbox {
+  font-size: 1.33vw;
+  color: #2E2D32;
+  max-width: 1300px;
+  width: 100%;
+  text-align: left;
+}
+
+ .textboxdark {
+  font-size: 1.33vw;
+  color: black;
+  font-family: productsans;
+  font-weight: bold;
+  text-align: left;
+  max-width: 1300px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 120px 0 60px;
+  border-top: 1px solid rgba(46, 45, 50, 0.15); /* minimal divider between About Me and Recent Works */
+ }
+
+ .works-buttons {
+  text-align: center;
+  padding: 20px 40px 100px;
+ }
+
+
+
+
+.btn {
+color: #fff;
+border: 1px solid #fff;
+background: none;
+padding: 10px 20px;
+font-size: 20px;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+cursor: pointer;
+margin: 10px;
+transition: ease-out 0.3s;
+box-shadow: inset 0 0 0 0 #1B2741;
+}
+
+.btn:hover{
+  box-shadow: inset 200px 0 0 0 #fff;
+  color: #147cd1;
+}
+
+.works-buttons a {
+  margin-right: 10px; /* Add space between the buttons */
+}
+
+.works-buttons a:last-child {
+  margin-right: 0; /* Remove margin from the last button */
+}
+
+/* Pill button: rounded outline with an icon, e.g. "DOWNLOAD RESUME" / "SEE MORE".
+   Hover rises a solid fill from the bottom edge, while the label is a two-line
+   mask: the dark line pushes up and out as a light-colored duplicate pushes up
+   from underneath to replace it, timed to match the fill. */
+.btn-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  overflow: hidden;
+  border: 1.5px solid #2E2D32;
+  border-radius: 999px;
+  background: none;
+  color: #2E2D32;
+  padding: 14px 18px 14px 30px;
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-pill-fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #2E2D32;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  pointer-events: none;
+}
+
+.btn-pill:hover .btn-pill-fill {
+  transform: translateY(0%);
+}
+
+.btn-pill-content {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-pill-label {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+  line-height: 1.2em;
+}
+
+.btn-pill-label-text {
+  display: block;
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.btn-pill-label-text--ghost {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #fff;
+  transform: translateY(100%);
+}
+
+.btn-pill:hover .btn-pill-label-text--base {
+  transform: translateY(-100%);
+}
+
+.btn-pill:hover .btn-pill-label-text--ghost {
+  transform: translateY(0%);
+}
+
+.btn-pill ion-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-pill:hover ion-icon {
+  color: #fff;
+}
+
+.btn-pill--see-more ion-icon {
+  transform: rotate(45deg);
+}
+
+.btn-pill--see-more:hover ion-icon {
+  transform: rotate(45deg) translate(2px, -2px);
+}
+
+.containerres {
+  width: 80%; 
+  margin: auto;
+}
+
+.responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/*animation*/
+
+/*.animatedshape {
+    display: flex;
+    justify-content: space-between;
+    animation: imgload 3s 1;
+    animation-fill-mode: forwards;
+    transform: translateY(-20px);
+    opacity: 0;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+   
+}*/
+
+@keyframes imgload {
+    0%{
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateY(0px);
+        opacity: 1;
+    }
+    
+}
+
+.about-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+}
+
+.about-title,
+.works-title {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: 1.6vw;
+  line-height: 1;
+  margin: 0;
+  letter-spacing: normal;
+  color: #2E2D32;
+}
+
+.about-typing {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.6vw;
+  color: #2E2D32;
+  display: flex;
+  align-items: baseline;
+  text-transform: uppercase;
+}
+
+.about-typing .typed-cursor {
+  font-family: 'Anton', sans-serif;
+  margin-left: 2px;
+}
+
+/* Shared letter-mask reveal mechanism: each letter is clipped inside a fixed-height
+   mask and rises up into view, staggered per-letter via the --i custom property.
+   Used by "ABOUT ME" and "RECENT WORKS" (both triggered once on scroll-into-view)
+   and the work-list category/year labels (triggered on row hover). */
+.letter-mask {
+  display: inline-block;
+  overflow: hidden;
+  height: 1em;
+  vertical-align: bottom;
+}
+
+.letter-mask.space {
+  width: 0.3em;
+}
+
+/* Groups a word's individual .letter-mask spans so the browser treats the
+   whole word as one atomic unit when wrapping — see wrapLettersInMask (js). */
+.letter-mask-word {
+  display: inline-block;
+}
+
+.letter {
+  display: inline-block;
+  transform: translateY(130%);
+  /* 130%, not 100% — .letter-mask's 1em height and the letter's own line-box
+     height are both sub-pixel values (font-size is in vw/em), so at exactly
+     100% they round differently and a sliver of the glyph peeks out the top
+     of the mask at rest. The extra overshoot buffer clears that regardless
+     of rounding. no transition here on purpose — leaving a reveal state
+     (hover-out, etc.) snaps back instantly instead of animating; only the
+     "entering" states below define their own transition so they're the ones
+     that animate in. */
+}
+
+.about-header.reveal-letters .letter,
+.works-title.reveal-letters .letter,
+.project-title.reveal-letters .letter,
+.project-section-title.reveal-letters .letter {
+  transform: translateY(0%);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i) * 60ms);
+}
+
+.work-row:hover .work-category .letter,
+.work-row:hover .work-year .letter {
+  transform: translateY(0%);
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i) * 16ms);
+}
+
+/* Animation 2: paragraph word-by-word opacity, driven continuously by JS per scroll frame */
+.about-copy {
+  text-align: left;
+  font-family: productsans;
+}
+
+.reveal-word {
+  opacity: 0.2;
+  display: inline-block;
+}
+
+.hidden {
+opacity: 0;
+transition: all 2s;
+filter: blur(5px);
+transform: translateX(-100%);
+}
+
+.show {
+opacity: 1;
+filter: blur(0);
+transform: translateX(0);
+}
+
+/* Pill buttons entrance: a static overflow-hidden mask with the button itself
+   sliding up out from under it — same "letter pushes up out of its mask"
+   technique as the ABOUT ME / RECENT WORKS header letters, no fade. */
+.hidden.btn-reveal {
+  display: inline-block;
+  overflow: hidden;
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+.btn-reveal-inner {
+  transform: translateY(100%);
+  transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-reveal.show .btn-reveal-inner {
+  transform: translateY(0%);
+}
+
+.smooth-scroll {
+  overflow: hidden; /* Ensure smooth scroll container does not show scrollbar */
+}
+
+.sidebar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 0.25rem; /* Adjust padding for better spacing */
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.03), 0 4px 8px rgba(0, 0, 0, 0.1); /* Add drop shadow */
+  display: none; /* Hidden by default on desktop */
+  flex-direction: column;
+  align-items: center;
+  z-index: 200; /* Ensure it is above other elements */
+  transform: scale(0); /* Start with a small circle */
+  opacity: 0; /* Start with invisible */
+  pointer-events: none; /* Prevent clicking when invisible */
+  transition: transform 0.1s ease, opacity 0.1s ease; /* Smooth transition for the pop-up effect */
+  width: 3rem; /* Make the sidebar thinner */
+}
+
+.sidebar.show {
+  transform: scale(1); /* Scale up to the full size */
+  opacity: 1; /* Make it visible */
+  pointer-events: auto; /* Allow clicking when visible */
+}
+
+/* Hide sidebar during preloader */
+body.preload-active .sidebar {
+  display: none !important;
+  opacity: 0 !important;
+  transform: scale(0) !important;
+  pointer-events: none !important;
+}
+
+.sidebar__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem; /* Adjust height */
+  width: 3rem; /* Adjust width */
+  color: #6a778e;
+  transition: 250ms ease all;
+  font-family: 'productsans', sans-serif; /* Use productsans font */
+}
+
+.sidebar__link span {
+  position: absolute;
+  right: 100%; /* Change to right */
+  transform: translate(2.5rem); /* Adjust translate value */
+  margin-right: 0.5rem; /* Adjust margin */
+  opacity: 0;
+  pointer-events: none;
+  color: #147cd1;
+  background: #fff;
+  padding: 0.5rem; /* Reduce padding */
+  transition: opacity 250ms ease, transform 250ms ease; /* Ensure smooth transition */
+  border-radius: 8px; /* Reduce corner radius */
+  font-family: 'productsans', sans-serif; /* Use productsans font */
+  font-size: 0.875rem; /* Make the text a little bit smaller */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add drop shadow */
+}
+
+.sidebar__link:hover span {
+  opacity: 1;
+  transform: translate(0);
+}
+
+.sidebar__link:hover {
+  color: #147cd1;
+  transform: scale(1.2); /* Make the icon larger on hover */
+}
+
+.sidebar__menu {
+  position: relative;
+  list-style: none; /* Remove bullets */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+/* Remove the blue gooey background effect on hover */
+.sidebar__item:last-child:before {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+  top: 0;
+  left: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: none; /* Remove background */
+  border-radius: 17.5px;
+  transition: none; /* Remove transition */
+}
+
+.sidebar__item:hover:last-child:before {
+  opacity: 0; /* Ensure it stays hidden */
+  animation: none; /* Remove animation */
+}
+
+.sidebar__link.clicked {
+  color: #147cd1; /* Make the icon stay blue when clicked */
+}
+
+.sidebar__link.clicked ion-icon {
+  color: #147cd1; /* Ensure the icon stays blue when clicked */
+}
+
+/* ...existing code... */
+
+#screen-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: 'productsans', sans-serif;
+  text-align: center;
+}
+
+#screen-warning h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+#screen-warning p {
+  font-size: 1.25rem;
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    padding: 12px 24px;
+    font-size: 18px;
+  }
+  
+  .sidebar__link {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+  
+  .logo:hover,
+  .nav_bar .right_section a:hover {
+    transform: none;
+  }
+}
+
+/* Ensure proper box-sizing for all elements */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Improve text readability on mobile */
+@media (max-width: 768px) {
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}

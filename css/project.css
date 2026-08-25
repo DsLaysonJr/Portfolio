@@ -1,0 +1,434 @@
+/* Dedicated project detail page (project.html?id=N) — replaces the old
+   click-to-open modal. Reuses works.css for the shared header/back-link
+   chrome; this file is just the hero + body layout specific to this page.
+   Layout follows a Figma mockup: big title with category/year pinned to its
+   top-right, then a two-column intro (bold lead-in + "Overview" copy on the
+   left, a square-ish hero image on the right), then full-width Technologies/
+   Achievements sections below. */
+
+.project-main {
+  max-width: 1600px;
+  width: 94%;
+  margin: 0 auto;
+}
+
+/* Title + category/year, sitting above the two-column intro. */
+.project-intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 48px 0 100px;
+}
+
+/* flex: 1 1 auto + min-width: 0 instead of the row wrapping — a short title
+   like "Studio" sits comfortably beside the meta block, but our titles run
+   much longer ("Google Developer Groups on Campus"), so instead of pushing
+   the whole meta block down to its own line, the title wraps its own text
+   across lines while the meta stays pinned to the top-right edge throughout. */
+.project-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 1;
+  color: #2E2D32;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.project-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.project-category,
+.project-year {
+  font-family: productsans;
+  font-weight: normal;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #2E2D32;
+  line-height: 1.5;
+}
+
+/* Word-mask reveal (not the letter-mask other headers use) — some
+   categories are long enough to wrap onto a second line ("UI / UX / Frontend
+   / Branding"), and .letter-mask's fixed 1em height per letter clips wrapped
+   lines. .word-mask (contact.css) has no fixed height, so it wraps cleanly —
+   same reasoning as the Contact section's copy paragraph using it. */
+.project-category.reveal-letters .word,
+.project-year.reveal-letters .word {
+  transform: translateY(0%);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i) * 60ms);
+}
+
+/* Two-column layout: bold lead-in, Overview copy, Technologies and Key
+   Achievements all stacked on the left; 3 stacked media items on the right.
+   Stacks (text first) below the mobile breakpoint. */
+.project-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: 70px;
+  align-items: stretch;
+  padding-bottom: 80px;
+}
+
+/* Content length varies a lot project to project (some have 2 short
+   paragraphs and 2 achievements, others 3 long paragraphs and 5), but the
+   media column's height is fairly constant (3 stacked square-ish images).
+   Rather than hand-tuning margins per project, stretch this column to the
+   media column's height (align-items: stretch above) and let flexbox
+   distribute the leftover space evenly between the lead-in and the three
+   sections, so short-content pages don't end with a big empty gap while
+   long-content pages just fall back to each section's own margin-bottom. */
+.project-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.project-text-col .project-section:last-child {
+  margin-bottom: 0;
+}
+
+.project-description {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+  text-transform: uppercase;
+  color: #2E2D32;
+  line-height: 1.4;
+  margin: 0 0 40px;
+}
+
+/* Right column holds 3 stacked media items (see project.js's
+   buildPixelRevealMedia) instead of a single hero image. */
+.project-media-col {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.project-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  overflow: hidden;
+  /* White, matching the page background, so it blends in as a loading
+     placeholder instead of reading as a visible box — the tiles/media
+     should be the only thing ever visible here anyway. */
+  background: #ffffff;
+}
+
+.project-hero-img,
+.project-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Hidden until the pixel-tile entrance below finishes and hands off to the
+     real element (see project.js's setupMediaPixelReveal). */
+  opacity: 0;
+}
+
+.project-hero.is-revealed .project-hero-img,
+.project-hero.is-revealed .project-hero-video {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+/* Pixel-mosaic entrance for the hero image/video — same grid size, delay
+   range, and pop-in technique as the homepage/works-list hover preview
+   (.work-preview-tiles in main.css): a grid of small canvases, each painted
+   with its own slice of the media (fully transparent until then, so nothing
+   shows through but the real underlying element, which stays hidden — never
+   a flash of the placeholder background), popping in at its own randomized
+   delay once the block scrolls into view. Painted and triggered in
+   project.js's setupMediaPixelReveal, then faded out to hand off to the
+   real <img>/<video> above. */
+.project-hero-tiles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.project-hero-tiles.is-done {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.project-hero-tile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  opacity: 0;
+}
+
+.project-hero-tiles.is-visible .project-hero-tile {
+  opacity: 1;
+  transition: opacity 0.01s;
+  transition-delay: var(--delay, 0s);
+}
+
+.project-section {
+  max-width: 52ch;
+  margin-bottom: 40px;
+}
+
+.project-section-title {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  color: #2E2D32;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+
+.project-overview-text p {
+  font-family: productsans;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  color: #2E2D32;
+  line-height: 1.7;
+  margin: 0 0 90px;
+}
+
+.project-overview-text p:last-child {
+  margin-bottom: 0;
+}
+
+.project-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.project-tech-badge {
+  background-color: #f0f4f8;
+  color: #147cd1;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: productsans;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 1px solid #147cd1;
+}
+
+.project-achievements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.project-achievements-list li {
+  font-family: productsans;
+  text-transform: uppercase;
+  color: #555;
+  line-height: 1.6;
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+}
+
+.project-achievements-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  background: #2E2D32;
+}
+
+.project-not-found {
+  padding: 100px 0;
+  text-align: center;
+  font-family: productsans;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Bottom-of-page "next project" prompt — label, a pixel-reveal preview image
+   (same technique as .project-hero above), and title/description/CTA, laid
+   out as a row so the preview reads as a single clickable card. */
+.next-project-section {
+  max-width: 1600px;
+  width: 94%;
+  margin: 100px auto 0;
+  padding: 100px 0 100px;
+  border-top: 1px solid rgba(46, 45, 50, 0.1);
+}
+
+.next-project-link {
+  display: grid;
+  grid-template-columns: auto minmax(220px, 360px) 1fr;
+  align-items: center;
+  gap: 48px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.next-project-label {
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #2E2D32;
+  white-space: nowrap;
+}
+
+.next-project-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.next-project-img,
+.next-project-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Hidden until the pixel-tile entrance finishes and hands off to the real
+     element (see project.js's setupMediaPixelReveal). */
+  opacity: 0;
+}
+
+.next-project-media.is-revealed .next-project-img,
+.next-project-media.is-revealed .next-project-video {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.next-project-tiles {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.next-project-tiles.is-done {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.next-project-tile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  opacity: 0;
+}
+
+.next-project-tiles.is-visible .next-project-tile {
+  opacity: 1;
+  transition: opacity 0.01s;
+  transition-delay: var(--delay, 0s);
+}
+
+.next-project-title {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  line-height: 1;
+  color: #2E2D32;
+  text-transform: uppercase;
+  margin: 0 0 18px;
+}
+
+.next-project-desc {
+  font-family: productsans;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: #555;
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0 0 28px;
+}
+
+.next-project-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #2E2D32;
+}
+
+.next-project-cta ion-icon {
+  transition: transform 0.3s ease;
+}
+
+.next-project-link:hover .next-project-cta ion-icon {
+  transform: translateX(6px);
+}
+
+@media (max-width: 767px) {
+  .project-intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 32px 0 24px;
+  }
+
+  .project-meta {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .project-columns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-bottom: 40px;
+  }
+
+  /* Single-column now, so there's no media column height to match — make
+     that explicit instead of relying on .project-text-col's flex-column/
+     space-between (see the comment above that rule) naturally having no
+     free space to distribute once the columns stack. */
+  .project-text-col {
+    justify-content: flex-start;
+  }
+
+  .project-description {
+    font-size: 1rem;
+  }
+
+  .next-project-section {
+    margin: 60px auto 0;
+    padding: 60px 0 60px;
+  }
+
+  .next-project-link {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .next-project-media {
+    max-width: 280px;
+    aspect-ratio: 1 / 1.05;
+  }
+}

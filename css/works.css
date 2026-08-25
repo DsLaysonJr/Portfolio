@@ -1,0 +1,260 @@
+/* Recent Works page — shares the homepage's fake-scroll rig (see
+   smoothscroll.js) instead of native scrolling, so its chrome follows the
+   same two conventions as index.html: the logo header sits outside
+   .smooth-scroll as a plain fixed element (no counter-transform needed to
+   stay pinned), and .works-page picks up main.css's overflow:hidden body by
+   default rather than overriding it. */
+
+body.works-page {
+  background: #ffffff;
+}
+
+.works-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 40px;
+  /* Transparent, floating logo — same treatment as the homepage's
+     .left_section, instead of a solid white bar sitting on top of the page. */
+  background: transparent;
+}
+
+.works-logo-link {
+  display: inline-flex;
+}
+
+.works-logo {
+  height: 40px;
+  border-radius: 40px;
+  /* The logo asset is solid white — invisible on this header's white
+     background. .works-header is always white here (unlike the homepage's
+     logo, which only inverts once scrolled onto its light content below a
+     dark hero — see .left_section.on-light in main.css), so invert it
+     unconditionally instead of toggling it. */
+  filter: brightness(0);
+}
+
+/* Content lives inside .smooth-scroll now that the header is fixed above it —
+   offset by the header's own height so nothing starts out hidden beneath it. */
+body.works-page .smooth-scroll {
+  padding-top: 89px;
+}
+
+.works-main {
+  max-width: 2400px;
+  width: 94%;
+  margin: 0 auto;
+  padding: 60px 40px 20px;
+}
+
+.works-page-title {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: clamp(3.2rem, 9vw, 7.5rem);
+  color: #2E2D32;
+  margin: 0 0 40px;
+  text-transform: uppercase;
+}
+
+.works-filters {
+  margin-bottom: 24px;
+}
+
+/* Custom multi-select dropdown instead of a row of pill buttons — ten
+   categories as separate buttons was a lot of visual clutter, and a native
+   <select multiple> renders as an ugly, hard-to-use list box. The toggle
+   reuses .btn-pill (main.css) — the same fill-on-hover pill button used for
+   every other CTA on the site (Get In Touch, GitHub, Pin it to the board) —
+   so this reads as part of the same design language instead of a generic
+   form control. The open panel's options are styled the same way the old
+   filter-pill buttons looked, just living inside a dropdown instead of a
+   full row across the page. */
+.filter-multiselect {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-select.btn-pill {
+  min-width: 240px;
+  justify-content: space-between;
+}
+
+/* .btn-pill-content (main.css) packs the label and icon snugly together by
+   default (it's sized to its content, not the button) — stretch it to the
+   button's full width so space-between above actually has room to push the
+   chevron out to the right edge instead of sitting right next to the text. */
+.filter-select.btn-pill .btn-pill-content {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.filter-multiselect.is-open .filter-select .btn-pill-fill {
+  transform: translateY(0%);
+}
+
+.filter-multiselect.is-open .filter-select .btn-pill-label-text--base {
+  transform: translateY(-100%);
+}
+
+.filter-multiselect.is-open .filter-select .btn-pill-label-text--ghost {
+  transform: translateY(0%);
+}
+
+.filter-multiselect.is-open .filter-select-arrow {
+  color: #fff;
+  transform: rotate(180deg);
+}
+
+.filter-select-arrow {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.filter-select-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 320px;
+  background: #fff;
+  border: 1.5px solid rgba(46, 45, 50, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  padding: 16px;
+  z-index: 20;
+}
+
+.filter-multiselect.is-open .filter-select-panel {
+  display: block;
+}
+
+.filter-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  position: relative;
+  display: inline-flex;
+}
+
+.filter-chip-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.filter-chip-label {
+  display: inline-flex;
+  align-items: center;
+  border: 1.5px solid rgba(46, 45, 50, 0.3);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #2E2D32;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.filter-chip:hover .filter-chip-label {
+  border-color: #2E2D32;
+}
+
+.filter-chip-input:checked + .filter-chip-label {
+  background: #2E2D32;
+  border-color: #2E2D32;
+  color: #fff;
+}
+
+.filter-chip-input:focus-visible + .filter-chip-label {
+  outline: 2px solid #147cd1;
+  outline-offset: 2px;
+}
+
+.filter-select-clear {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: none;
+  border: none;
+  border-top: 1px solid rgba(46, 45, 50, 0.12);
+  margin-top: 14px;
+  padding-top: 12px;
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(46, 45, 50, 0.6);
+  cursor: pointer;
+}
+
+.filter-select-clear:hover {
+  color: #2E2D32;
+}
+
+.work-row.is-filtered-out {
+  display: none;
+}
+
+.works-cta {
+  text-align: center;
+  padding: 80px 40px 100px;
+  border-top: 1px solid rgba(46, 45, 50, 0.1);
+}
+
+.works-cta p {
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #2E2D32;
+  margin: 0 0 24px;
+}
+
+.works-cta-buttons {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .works-header {
+    padding: 16px 20px;
+  }
+
+  body.works-page .smooth-scroll {
+    padding-top: 73px;
+  }
+
+  .works-main {
+    padding: 40px 20px 10px;
+  }
+
+  .works-cta {
+    padding: 50px 20px 60px;
+  }
+
+  .filter-select.btn-pill {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Fixed 320px (works.css default) overflows narrow phones once the
+     .works-main side padding above is accounted for — cap it to the
+     viewport instead. */
+  .filter-select-panel {
+    width: min(320px, calc(100vw - 40px));
+  }
+}

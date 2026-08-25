@@ -1,0 +1,56 @@
+/* Shared page-transition wipe for internal navigation, present on every page
+   (see page-transition.js). Three stacked full-screen layers — dark
+   #2E2D32, then blue #147CD1 with the logo centered, then dark #2E2D32
+   again — slide up from the bottom in sequence on exit, so leaving any page
+   reads as one continuous three-color wipe before the browser actually
+   navigates. works.html/project.html start already covered by the final
+   dark layer (the class's own default "covering" state, no modifier needed)
+   so a freshly-loaded page never flashes unwiped content, then reveal by
+   sliding all three layers up and off together. index.html's script.js
+   decides for itself whether to reveal this (skipping its own counting
+   preloader) or hide it instantly (letting that preloader play instead) —
+   see page-transition.js's exposed pageWipeReveal/pageWipeForceHidden. */
+.wipe-layer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(0%); /* default = covering */
+  transition: transform 0.8s cubic-bezier(0.83, 0, 0.17, 1);
+  pointer-events: none;
+}
+
+.wipe-layer--grey-1 {
+  background: #2E2D32;
+  z-index: 10500; /* above .preload (9999) so an exit can cover it too */
+}
+
+.wipe-layer--blue {
+  background: #147CD1;
+  z-index: 10501;
+}
+
+.wipe-layer--grey-2 {
+  background: #2E2D32;
+  z-index: 10502;
+}
+
+.wipe-layer__logo {
+  width: 64px;
+  height: auto;
+}
+
+/* Waiting just below the viewport, ready to wipe up into view. */
+.wipe-layer.is-below {
+  transform: translateY(100%);
+}
+
+/* Slid away above the viewport, revealing the real page underneath. */
+.wipe-layer.is-out {
+  transform: translateY(-100%);
+}
+
+.wipe-layer.is-instant {
+  transition: none;
+}

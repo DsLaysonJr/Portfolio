@@ -1,0 +1,191 @@
+/* Footer — dark contact/links tier + a big parallax "wordmark" tier */
+
+.footer-new {
+  width: 100%;
+  background: #0e0e10;
+  color: #fff;
+  font-family: productsans;
+  padding: 70px 70px 30px;
+}
+
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 50px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.footer-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 14px;
+}
+
+.footer-contact {
+  flex: 1.2;
+  min-width: 220px;
+}
+
+.footer-email {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1.15rem;
+  color: #147cd1;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-email:hover {
+  opacity: 0.8;
+}
+
+.footer-links,
+.footer-socials {
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-links a,
+.footer-socials a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+  width: fit-content;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.footer-links a:hover,
+.footer-socials a:hover {
+  color: #147cd1;
+}
+
+.footer-socials a ion-icon {
+  font-size: 0.85em;
+  transform: rotate(45deg);
+}
+
+.footer-bottom-row {
+  max-width: 1300px;
+  margin: 60px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer-copyright {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+/* The transparent gap at the very end of the scrolling content — the only
+   place nothing opaque is painted over .footer-parallax, so scrolling this
+   into view is what reveals it. Height must match .footer-parallax's
+   exactly, or the reveal either leaves a gap or overlaps. See index.html
+   for both elements. */
+.footer-reveal-spacer {
+  width: 100%;
+  height: clamp(360px, 42vh, 460px);
+  /* dvh accounts for the mobile browser's collapsing address bar — vh alone
+     is measured against the largest possible viewport, which can make a
+     fixed bottom-pinned element (.footer-parallax below, which this spacer's
+     height must match exactly) taller than what's actually visible once the
+     address bar is showing, cutting off its bottom edge. Browsers that don't
+     support dvh yet just ignore this line and keep the vh value above. */
+  height: clamp(360px, 42dvh, 460px);
+}
+
+/* The big blue tier — fixed behind everything (see index.html:33-ish, lives
+   outside .smooth-scroll) so it stays pinned at the back instead of
+   scrolling with the page, and pinned to the bottom of the viewport at a
+   capped height (not inset: 0 / full-screen) so it reads as a band, not a
+   full-height panel. .footer-reveal-spacer above is what actually uncovers
+   it. The logo/tagline inside get their own small lag-behind drift from
+   SmoothScroll.updateFooterParallax() in script.js, the same
+   currentY-based technique the hero's .parallax .bg already uses, for a bit
+   of depth while it's revealed. */
+.footer-parallax {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: clamp(360px, 42vh, 460px);
+  height: clamp(360px, 42dvh, 460px);
+  z-index: -1;
+  background: #147cd1;
+  display: flex;
+  /* flex-start + fixed padding (not center) so the logo always sits exactly
+     40px from the top, matching .footer-band on works.html exactly. That
+     band auto-sizes to its content (padding + logo, no slack), but this
+     fixed-height container often has leftover room below the clamp's floor —
+     centering would split that slack evenly and push the logo down further
+     than .footer-band's version. Any unused slack here just becomes plain
+     blue background past the tagline instead, which is invisible. */
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+.footer-parallax-inner {
+  width: 94%;
+  max-width: 1300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  will-change: transform;
+}
+
+.footer-logo {
+  /* Capped by vh as well as vw: .footer-parallax (home page) has a fixed
+     height that doesn't grow with content, unlike .footer-band (works.html),
+     which auto-sizes to fit. Without the vh cap, this square logo can render
+     taller than .footer-parallax's fixed height on common wide-but-short
+     (laptop) viewports and get clipped by its overflow: hidden. Same class
+     is shared by both pages, so this also keeps the logo sized consistently
+     between them. Max lowered from 440 to 400 so that even at the tallest
+     clamped .footer-parallax height (460px), a 40px top offset plus the
+     logo still fits inside it without clipping the bottom. */
+  width: clamp(200px, min(32vw, 34vh), 400px);
+  height: auto;
+  margin-left: -45px;
+}
+
+.footer-tagline {
+  font-family: productsans;
+  font-weight: bold;
+  font-size: clamp(1.6rem, 3.6vw, 2.8rem);
+  line-height: 1.25;
+  color: #fff;
+  text-align: right;
+  margin: 0;
+}
+
+/* Same closing blue band as .footer-parallax, but a plain in-flow section
+   instead of a fixed + negative-z-index reveal — used on works.html/
+   project.html. Those pages don't have a hero to sync a parallax reveal
+   against, and the fixed/transparent-spacer trick could show through gaps
+   in their simpler, more variable-height layout (filtering, dynamic project
+   content). Scrolling it normally like any other section can't "leak". */
+.footer-band {
+  width: 100%;
+  min-height: clamp(320px, 42vh, 460px);
+  background: #147cd1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 40px 0;
+}

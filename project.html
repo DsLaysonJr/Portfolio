@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="works-page" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Project — Dennis Layson Jr.</title>
+    <meta name="description" content="A closer look at one of Dennis Layson Jr.'s branding, UI/UX, and multimedia design projects.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Dennis Layson Jr. — Project">
+    <meta property="og:description" content="A closer look at one of Dennis Layson Jr.'s branding, UI/UX, and multimedia design projects.">
+    <meta property="og:image" content="favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dennis Layson Jr. — Project">
+    <meta name="twitter:description" content="A closer look at one of Dennis Layson Jr.'s branding, UI/UX, and multimedia design projects.">
+    <meta name="twitter:image" content="favicon.png">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/works.css">
+    <link rel="stylesheet" href="css/project.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <!-- Loaded last (of the local stylesheets) on purpose: its @media
+         overrides need to win cascade ties against each component file's
+         base (desktop) rules above, which only happens if it comes after
+         all of them in source order. -->
+    <link rel="stylesheet" href="css/breakpoints.css">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <script defer src="js/projects.js"></script>
+    <script defer src="js/project.js"></script>
+    <script defer src="js/smoothscroll.js"></script>
+    <script defer src="js/page-transition.js"></script>
+  </head>
+  <body class="works-page">
+    <div class="wipe-layer wipe-layer--grey-1" aria-hidden="true"></div>
+    <div class="wipe-layer wipe-layer--blue" aria-hidden="true">
+      <img class="wipe-layer__logo" src="logonav.svg" alt="" draggable="false">
+    </div>
+    <div class="wipe-layer wipe-layer--grey-2" aria-hidden="true"></div>
+
+    <header class="works-header">
+      <a href="index.html" class="works-logo-link">
+        <img draggable="false" class="works-logo" src="logonav.svg" alt="Dennis Layson Jr. logo">
+      </a>
+    </header>
+
+    <div class="smooth-scroll">
+    <main class="project-main">
+      <div class="project-intro">
+        <h1 class="project-title" id="projectTitle"></h1>
+        <div class="project-meta">
+          <span class="project-category" id="projectCategory"></span>
+          <span class="project-year" id="projectYear"></span>
+        </div>
+      </div>
+
+      <div class="project-columns">
+        <div class="project-text-col">
+          <p class="project-description" id="projectDescription"></p>
+
+          <div class="project-section">
+            <h2 class="project-section-title" id="overviewSectionTitle">Overview</h2>
+            <div class="project-overview-text" id="projectDetails"></div>
+          </div>
+
+          <div class="project-section">
+            <h2 class="project-section-title" id="techSectionTitle">Technologies Used</h2>
+            <div class="project-tech-list" id="projectTechList"></div>
+          </div>
+
+          <div class="project-section">
+            <h2 class="project-section-title" id="achievementsSectionTitle">Key Achievements</h2>
+            <ul class="project-achievements-list" id="projectAchievements"></ul>
+          </div>
+        </div>
+
+        <div class="project-media-col" id="projectMediaCol"></div>
+      </div>
+    </main>
+
+    <section class="next-project-section" id="nextProjectSection">
+      <a class="next-project-link" id="nextProjectLink" href="#">
+        <span class="next-project-label">Next Project</span>
+
+        <div class="next-project-media" id="nextProjectMedia">
+          <img class="next-project-img" id="nextProjectImg" src="" alt="">
+          <video class="next-project-video" id="nextProjectVideo" muted autoplay loop playsinline preload="metadata"></video>
+          <div class="next-project-tiles" id="nextProjectTiles" aria-hidden="true"></div>
+        </div>
+
+        <div class="next-project-info">
+          <h2 class="next-project-title" id="nextProjectTitle"></h2>
+          <p class="next-project-desc" id="nextProjectDesc"></p>
+          <span class="next-project-cta">View Project <ion-icon name="arrow-forward-outline"></ion-icon></span>
+        </div>
+      </a>
+    </section>
+
+    <div class="contact-section">
+      <div class="contact-wrap">
+        <h1 id="Contact" class="works-title contact-title" aria-label="LET'S WORK TOGETHER">
+          <span class="contact-title-line">
+            <span class="letter-mask" style="--i:0"><span class="letter">L</span></span><span class="letter-mask" style="--i:1"><span class="letter">E</span></span><span class="letter-mask" style="--i:2"><span class="letter">T</span></span><span class="letter-mask" style="--i:3"><span class="letter">’</span></span><span class="letter-mask" style="--i:4"><span class="letter">S</span></span><span class="letter-mask space" style="--i:5" aria-hidden="true">&nbsp;</span><span class="letter-mask" style="--i:6"><span class="letter">W</span></span><span class="letter-mask" style="--i:7"><span class="letter">O</span></span><span class="letter-mask" style="--i:8"><span class="letter">R</span></span><span class="letter-mask" style="--i:9"><span class="letter">K</span></span>
+          </span>
+          <span class="contact-title-line">
+            <span class="letter-mask" style="--i:10"><span class="letter">T</span></span><span class="letter-mask" style="--i:11"><span class="letter">O</span></span><span class="letter-mask" style="--i:12"><span class="letter">G</span></span><span class="letter-mask" style="--i:13"><span class="letter">E</span></span><span class="letter-mask" style="--i:14"><span class="letter">T</span></span><span class="letter-mask" style="--i:15"><span class="letter">H</span></span><span class="letter-mask" style="--i:16"><span class="letter">E</span></span><span class="letter-mask" style="--i:17"><span class="letter">R</span></span>
+          </span>
+        </h1>
+        <div class="contact-side">
+          <p class="contact-copy">Have a project in mind? I'd love to hear about it. Let's create something great together!</p>
+          <span class="hidden btn-reveal">
+            <a href="mailto:dennislaysonjr3@gmail.com">
+              <button class="btn-pill contact-cta btn-reveal-inner">
+                <span class="btn-pill-fill" aria-hidden="true"></span>
+                <span class="btn-pill-content">
+                  <span class="btn-pill-label">
+                    <span class="btn-pill-label-text btn-pill-label-text--base">Get In Touch</span>
+                    <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">Get In Touch</span>
+                  </span>
+                </span>
+              </button>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!--here footer-->
+    <div class="footer-new">
+      <div class="footer-top">
+        <div class="footer-col footer-contact">
+          <span class="footer-label">(EMAIL)</span>
+          <a href="mailto:dennislaysonjr3@gmail.com" class="footer-email">dennislaysonjr3@gmail.com</a>
+        </div>
+        <div class="footer-col footer-links">
+          <span class="footer-label">(LINKS)</span>
+          <a href="index.html#Home">Home</a>
+          <a href="index.html#About">About</a>
+          <a href="index.html#Works">Works</a>
+          <a href="index.html#Corkboard">Corkboard</a>
+        </div>
+        <div class="footer-col footer-socials">
+          <span class="footer-label">(SOCIALS)</span>
+          <a href="https://www.linkedin.com/in/dennis-layson-jr-462850308/" target="_blank">LinkedIn<ion-icon name="arrow-up-outline"></ion-icon></a>
+          <a href="https://github.com/DsLaysonJr" target="_blank">GitHub<ion-icon name="arrow-up-outline"></ion-icon></a>
+        </div>
+      </div>
+      <div class="footer-bottom-row">
+        <p class="footer-copyright">© 2026 Dennis Layson Jr. All rights reserved.</p>
+      </div>
+    </div>
+    <!-- Plain in-flow closing band (not the homepage's fixed/reveal-spacer
+         trick — see footer.css's .footer-band comment for why). -->
+    <div class="footer-band">
+      <div class="footer-parallax-inner">
+        <img src="logonav.svg" alt="Dennis Layson Jr. logo" class="footer-logo">
+        <p class="footer-tagline">Design With Purpose.<br>Built To Lead.</p>
+      </div>
+    </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

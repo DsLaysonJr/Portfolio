@@ -1,0 +1,65 @@
+/* Contact — "Let's Work Together" */
+
+.contact-section {
+  padding: 100px 0 120px;
+  border-top: 1px solid rgba(46, 45, 50, 0.15);
+}
+
+.contact-wrap {
+  width: 94%;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.contact-title {
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+  line-height: 1.05;
+  flex: 1.4;
+}
+
+.contact-title-line {
+  display: block;
+}
+
+.contact-side {
+  flex: 1;
+  max-width: 380px;
+}
+
+.contact-copy {
+  font-family: productsans;
+  font-weight: normal;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #2E2D32;
+  margin: 0 0 28px;
+}
+
+/* Per-word mask reveal — same idea as the letter-cascade headings, just one
+   word at a time instead of one letter at a time. */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word {
+  display: inline-block;
+  transform: translateY(130%);
+}
+
+.contact-copy.reveal-letters .word {
+  transform: translateY(0%);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i) * 80ms);
+}
+
+/* No icon in this button, so the icon-oriented left-heavy padding from
+   .btn-pill leaves the label looking off-center — even it back out. */
+.contact-cta {
+  padding: 14px 30px;
+}

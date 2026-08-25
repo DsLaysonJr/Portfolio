@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="works-page" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recent Works — Dennis Layson Jr.</title>
+    <meta name="description" content="A collection of branding, UI/UX, and multimedia design projects by Dennis Layson Jr.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Recent Works — Dennis Layson Jr.">
+    <meta property="og:description" content="A collection of branding, UI/UX, and multimedia design projects by Dennis Layson Jr.">
+    <meta property="og:image" content="favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Recent Works — Dennis Layson Jr.">
+    <meta name="twitter:description" content="A collection of branding, UI/UX, and multimedia design projects by Dennis Layson Jr.">
+    <meta name="twitter:image" content="favicon.png">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/works.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/page-transition.css">
+    <!-- Loaded last (of the local stylesheets) on purpose: its @media
+         overrides need to win cascade ties against each component file's
+         base (desktop) rules above, which only happens if it comes after
+         all of them in source order. -->
+    <link rel="stylesheet" href="css/breakpoints.css">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <script defer src="js/projects.js"></script>
+    <script defer src="js/works.js"></script>
+    <script defer src="js/stickers.js"></script>
+    <script defer src="js/smoothscroll.js"></script>
+    <script defer src="js/page-transition.js"></script>
+  </head>
+  <body class="works-page">
+    <div class="wipe-layer wipe-layer--grey-1" aria-hidden="true"></div>
+    <div class="wipe-layer wipe-layer--blue" aria-hidden="true">
+      <img class="wipe-layer__logo" src="logonav.svg" alt="" draggable="false">
+    </div>
+    <div class="wipe-layer wipe-layer--grey-2" aria-hidden="true"></div>
+    <div class="custom-cursor"></div>
+    <div class="sticker-trail" aria-hidden="true"></div>
+    <div class="work-preview" aria-hidden="true">
+      <div class="work-preview-inner">
+        <img class="work-preview-img" src="" alt="">
+        <div class="work-preview-tiles"></div>
+        <video class="work-preview-video" muted loop playsinline></video>
+      </div>
+    </div>
+
+    <header class="works-header">
+      <a href="index.html" class="works-logo-link">
+        <img draggable="false" class="works-logo" src="logonav.svg" alt="Dennis Layson Jr. logo">
+      </a>
+    </header>
+
+    <div class="smooth-scroll">
+    <main class="works-main">
+      <h1 class="works-page-title">Recent Works</h1>
+
+      <div class="works-filters">
+        <div class="filter-multiselect" id="worksFilterMultiselect">
+          <button type="button" class="filter-select btn-pill" id="worksFilterToggle" aria-haspopup="listbox" aria-expanded="false">
+            <span class="btn-pill-fill" aria-hidden="true"></span>
+            <span class="btn-pill-content">
+              <span class="btn-pill-label">
+                <span class="btn-pill-label-text btn-pill-label-text--base" id="worksFilterLabelBase">All</span>
+                <span class="btn-pill-label-text btn-pill-label-text--ghost" id="worksFilterLabelGhost" aria-hidden="true">All</span>
+              </span>
+              <ion-icon name="chevron-down-outline" class="filter-select-arrow"></ion-icon>
+            </span>
+          </button>
+          <div class="filter-select-panel" id="worksFilterPanel" role="listbox" aria-multiselectable="true">
+            <div class="filter-chip-list">
+              <label class="filter-chip"><input type="checkbox" class="filter-chip-input" value="leadership"><span class="filter-chip-label">Leadership</span></label>
+              <label class="filter-chip"><input type="checkbox" class="filter-chip-input" value="branding"><span class="filter-chip-label">Branding</span></label>
+              <label class="filter-chip"><input type="checkbox" class="filter-chip-input" value="multimedia-design"><span class="filter-chip-label">Multimedia Design</span></label>
+              <label class="filter-chip"><input type="checkbox" class="filter-chip-input" value="ui-ux"><span class="filter-chip-label">UI / UX</span></label>
+              <label class="filter-chip"><input type="checkbox" class="filter-chip-input" value="storyboard"><span class="filter-chip-label">Storyboard</span></label>
+              <label class="filter-chip"><input type="checkbox" class="filter-chip-input" value="frontend"><span class="filter-chip-label">Frontend</span></label>
+            </div>
+            <button type="button" class="filter-select-clear" id="worksFilterClear">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content2 works-list">
+        <div class="slide work-row" data-tags="leadership">
+          <video src="works/GDG/DJI_0870 - Trim.mp4" data-project-id="1" muted loop playsinline preload="metadata"></video>
+          <span class="work-category">Leadership</span>
+          <span class="work-title"><span class="work-title-fit" data-short="GDGoC">Google Developer Groups on Campus</span></span>
+          <span class="work-year">2026</span>
+        </div>
+        <div class="slide work-row" data-tags="leadership">
+          <img src="works/Notion/Notion.png" data-project-id="2" alt="Notion" loading="lazy">
+          <span class="work-category">Leadership</span>
+          <span class="work-title"><span class="work-title-fit">Notion</span></span>
+          <span class="work-year">2024</span>
+        </div>
+        <div class="slide work-row" data-tags="branding">
+          <video src="works/WSP/WSP.mp4" data-project-id="3" muted loop playsinline preload="metadata"></video>
+          <span class="work-category">Branding</span>
+          <span class="work-title"><span class="work-title-fit" data-short="WSP PH">World Student Pitch Philippines</span></span>
+          <span class="work-year">2025</span>
+        </div>
+        <div class="slide work-row" data-tags="multimedia-design">
+          <video src="works/Moonton/Moonton.mp4" data-project-id="4" muted loop playsinline preload="metadata"></video>
+          <span class="work-category">Multimedia Design</span>
+          <span class="work-title"><span class="work-title-fit" data-short="MSL">Moonton Student Leaders</span></span>
+          <span class="work-year">2023</span>
+        </div>
+        <div class="slide work-row" data-tags="multimedia-design">
+          <img src="works/HOR/HOR.png" data-project-id="5" alt="House of Representatives" loading="lazy">
+          <span class="work-category">Multimedia Design</span>
+          <span class="work-title"><span class="work-title-fit" data-short="HOR">House of Representatives</span></span>
+          <span class="work-year">2025</span>
+        </div>
+        <div class="slide work-row" data-tags="ui-ux frontend">
+          <video src="works/Tara Kabataan/Tara Kabataan.mp4" data-project-id="6" muted loop playsinline preload="metadata"></video>
+          <span class="work-category">UI / UX / Frontend</span>
+          <span class="work-title"><span class="work-title-fit">Tara Kabataan</span></span>
+          <span class="work-year">2025</span>
+        </div>
+        <div class="slide work-row" data-tags="ui-ux branding">
+          <video src="works/Gear Up/Gear Up.mp4" data-project-id="7" muted loop playsinline preload="metadata"></video>
+          <span class="work-category">UI / UX and Branding</span>
+          <span class="work-title"><span class="work-title-fit">Gear Up</span></span>
+          <span class="work-year">2025</span>
+        </div>
+        <div class="slide work-row" data-tags="ui-ux frontend">
+          <img src="works/Sterling/Sterling.png" data-project-id="15" alt="Sterling Insurance Company Inc." loading="lazy">
+          <span class="work-category">UI / UX / Frontend</span>
+          <span class="work-title"><span class="work-title-fit" data-short="STERLING INC.">Sterling Insurance Company Inc.</span></span>
+          <span class="work-year">2025</span>
+        </div>
+        <div class="slide work-row" data-tags="ui-ux frontend branding">
+          <img src="works/A.C.C. Lang/A.C.C. Lang.png" data-project-id="13" alt="A.C.C. Lang" loading="lazy">
+          <span class="work-category">UI / UX / Frontend / Branding</span>
+          <span class="work-title"><span class="work-title-fit">A.C.C. Lang</span></span>
+          <span class="work-year">2024</span>
+        </div>
+        <div class="slide work-row" data-tags="branding">
+          <img src="works/Doers/Doers-cover.png" data-project-id="10" alt="Doers Coffee" loading="lazy">
+          <span class="work-category">Branding</span>
+          <span class="work-title"><span class="work-title-fit">Doers Coffee</span></span>
+          <span class="work-year">2026</span>
+        </div>
+        <div class="slide work-row" data-tags="ui-ux">
+          <img src="works/eCARGA/eCARGA.png" data-project-id="8" alt="Ecarga" loading="lazy">
+          <span class="work-category">UI / UX</span>
+          <span class="work-title"><span class="work-title-fit">Ecarga</span></span>
+          <span class="work-year">2024</span>
+        </div>
+        <div class="slide work-row" data-tags="storyboard ui-ux">
+          <img src="works/OVERCLOCKED/OVERCLOCKED-cover.png" data-project-id="11" alt="Overclocked">
+          <span class="work-category">Storyboard / UI / UX</span>
+          <span class="work-title"><span class="work-title-fit">Overclocked</span></span>
+          <span class="work-year">2026</span>
+        </div>
+      </div>
+    </main>
+
+    <div class="works-cta">
+      <p>Want to see more?</p>
+      <div class="works-cta-buttons">
+        <span class="hidden btn-reveal">
+          <a href="https://github.com/DsLaysonJr" target="_blank" class="btn-pill btn-pill--see-more btn-reveal-inner">
+            <span class="btn-pill-fill" aria-hidden="true"></span>
+            <span class="btn-pill-content">
+              <span class="btn-pill-label">
+                <span class="btn-pill-label-text btn-pill-label-text--base">GitHub</span>
+                <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">GitHub</span>
+              </span>
+              <ion-icon name="arrow-up-outline"></ion-icon>
+            </span>
+          </a>
+        </span>
+        <span class="hidden btn-reveal">
+          <a href="https://drive.google.com/drive/folders/167LGVf9eYEDr1gbiaPe4sy4lWI2nf9pn?usp=drive_link" target="_blank" class="btn-pill btn-pill--see-more btn-reveal-inner">
+            <span class="btn-pill-fill" aria-hidden="true"></span>
+            <span class="btn-pill-content">
+              <span class="btn-pill-label">
+                <span class="btn-pill-label-text btn-pill-label-text--base">Design Portfolio</span>
+                <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">Design Portfolio</span>
+              </span>
+              <ion-icon name="arrow-up-outline"></ion-icon>
+            </span>
+          </a>
+        </span>
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-wrap">
+        <h1 id="Contact" class="works-title contact-title" aria-label="LET'S WORK TOGETHER">
+          <span class="contact-title-line">
+            <span class="letter-mask" style="--i:0"><span class="letter">L</span></span><span class="letter-mask" style="--i:1"><span class="letter">E</span></span><span class="letter-mask" style="--i:2"><span class="letter">T</span></span><span class="letter-mask" style="--i:3"><span class="letter">’</span></span><span class="letter-mask" style="--i:4"><span class="letter">S</span></span><span class="letter-mask space" style="--i:5" aria-hidden="true">&nbsp;</span><span class="letter-mask" style="--i:6"><span class="letter">W</span></span><span class="letter-mask" style="--i:7"><span class="letter">O</span></span><span class="letter-mask" style="--i:8"><span class="letter">R</span></span><span class="letter-mask" style="--i:9"><span class="letter">K</span></span>
+          </span>
+          <span class="contact-title-line">
+            <span class="letter-mask" style="--i:10"><span class="letter">T</span></span><span class="letter-mask" style="--i:11"><span class="letter">O</span></span><span class="letter-mask" style="--i:12"><span class="letter">G</span></span><span class="letter-mask" style="--i:13"><span class="letter">E</span></span><span class="letter-mask" style="--i:14"><span class="letter">T</span></span><span class="letter-mask" style="--i:15"><span class="letter">H</span></span><span class="letter-mask" style="--i:16"><span class="letter">E</span></span><span class="letter-mask" style="--i:17"><span class="letter">R</span></span>
+          </span>
+        </h1>
+        <div class="contact-side">
+          <p class="contact-copy">Have a project in mind? I'd love to hear about it. Let's create something great together!</p>
+          <span class="hidden btn-reveal">
+            <a href="mailto:dennislaysonjr3@gmail.com">
+              <button class="btn-pill contact-cta btn-reveal-inner">
+                <span class="btn-pill-fill" aria-hidden="true"></span>
+                <span class="btn-pill-content">
+                  <span class="btn-pill-label">
+                    <span class="btn-pill-label-text btn-pill-label-text--base">Get In Touch</span>
+                    <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">Get In Touch</span>
+                  </span>
+                </span>
+              </button>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!--here footer-->
+    <div class="footer-new">
+      <div class="footer-top">
+        <div class="footer-col footer-contact">
+          <span class="footer-label">(EMAIL)</span>
+          <a href="mailto:dennislaysonjr3@gmail.com" class="footer-email">dennislaysonjr3@gmail.com</a>
+        </div>
+        <div class="footer-col footer-links">
+          <span class="footer-label">(LINKS)</span>
+          <a href="index.html#Home">Home</a>
+          <a href="index.html#About">About</a>
+          <a href="index.html#Works">Works</a>
+          <a href="index.html#Corkboard">Corkboard</a>
+        </div>
+        <div class="footer-col footer-socials">
+          <span class="footer-label">(SOCIALS)</span>
+          <a href="https://www.linkedin.com/in/dennis-layson-jr-462850308/" target="_blank">LinkedIn<ion-icon name="arrow-up-outline"></ion-icon></a>
+          <a href="https://github.com/DsLaysonJr" target="_blank">GitHub<ion-icon name="arrow-up-outline"></ion-icon></a>
+        </div>
+      </div>
+      <div class="footer-bottom-row">
+        <p class="footer-copyright">© 2026 Dennis Layson Jr. All rights reserved.</p>
+      </div>
+    </div>
+    <!-- Plain in-flow closing band (not the homepage's fixed/reveal-spacer
+         trick — see footer.css's .footer-band comment for why). -->
+    <div class="footer-band">
+      <div class="footer-parallax-inner">
+        <img src="logonav.svg" alt="Dennis Layson Jr. logo" class="footer-logo">
+        <p class="footer-tagline">Design With Purpose.<br>Built To Lead.</p>
+      </div>
+    </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

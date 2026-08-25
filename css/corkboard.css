@@ -1,0 +1,555 @@
+/* The Corkboard section */
+
+.corkboard-subtitle {
+  font-family: productsans;
+  font-weight: normal;
+  font-size: 1rem;
+  color: #6a6a70;
+  margin: 14px 0 0;
+}
+
+.corkboard-wrap {
+  width: 94%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 0 100px;
+}
+
+.corkboard-board {
+  position: relative;
+  width: 100%;
+  min-height: 680px;
+  border-radius: 18px;
+  background-color: #c48f5c;
+  background-image:
+    /* Soft top-left sheen + bottom-right pooled shadow, so the whole
+       surface reads as gently domed rather than flat. */
+    radial-gradient(ellipse at 22% 18%, rgba(255, 255, 255, 0.12), transparent 55%),
+    radial-gradient(ellipse at 82% 88%, rgba(0, 0, 0, 0.18), transparent 60%),
+    /* Cork speckle — three differently-sized dot layers instead of two,
+       plus a faint fibrous grain, for a less uniform, more organic texture. */
+    radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1.6px),
+    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1.6px),
+    radial-gradient(rgba(0, 0, 0, 0.07) 1.4px, transparent 2px),
+    repeating-linear-gradient(123deg, rgba(0, 0, 0, 0.03) 0px, transparent 1px, transparent 6px);
+  background-size: 100% 100%, 100% 100%, 26px 26px, 34px 34px, 21px 21px, auto;
+  background-position: 0 0, 0 0, 0 0, 13px 17px, 6px 11px, 0 0;
+  box-shadow:
+    /* Beveled wooden frame: a light seam then a darker one just inside it. */
+    inset 0 0 0 14px #a97a49,
+    inset 0 0 0 16px rgba(255, 236, 209, 0.18),
+    inset 0 0 0 17px rgba(0, 0, 0, 0.22),
+    /* Domed surface shading + deep vignette for overall depth. */
+    inset 10px 10px 30px rgba(0, 0, 0, 0.22),
+    inset -6px -6px 20px rgba(255, 255, 255, 0.05),
+    inset 0 0 46px rgba(0, 0, 0, 0.28),
+    /* Lifts the whole board off the page. */
+    0 18px 40px rgba(0, 0, 0, 0.2),
+    0 4px 10px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.corkboard-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: productsans;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Pinned notes */
+
+.corkboard-note {
+  position: absolute;
+  width: 190px;
+  min-height: 170px;
+  padding: 18px 16px 14px;
+  border-radius: 3px;
+  /* Two-part shadow: the usual soft cast shadow, plus a tight dark line right
+     at the edge so the paper reads as sitting slightly proud of the board
+     instead of painted flat onto it. */
+  box-shadow:
+    3px 6px 12px rgba(0, 0, 0, 0.28),
+    0 1px 2px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* Pinned notes are locally draggable (see corkboard.js) — any visitor can
+     drag one to spread out an overlapping board, purely on their own screen;
+     it never writes back to Firestore, so the pinner's original spot is
+     unaffected. cursor:grab surfaces that it's interactive. */
+  cursor: grab;
+  transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+  /* left/top (actual position) are deliberately NOT in this list — they're
+     set directly on every pointermove while dragging (see corkboard.js) and
+     must track the cursor 1:1 with zero lag. Only the "lift" (shadow +
+     transform/scale) eases, both picking up and putting down. */
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.corkboard-note::before,
+.corkboard-note-editor::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8a8a, #c0392b 70%);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.corkboard-note.is-placing,
+.corkboard-note.is-dragging {
+  cursor: grabbing;
+  z-index: 50;
+  box-shadow: 6px 10px 20px rgba(0, 0, 0, 0.35);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.corkboard-note.is-saving {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* "Reset Layout" (see corkboard.js) eases notes back to their real saved
+   spot instead of snapping — left/top only get a transition while this
+   class is present, so live dragging (which sets the same properties every
+   pointermove) still tracks the pointer 1:1 with no lag. */
+.corkboard-note.is-resetting {
+  transition: left 0.5s cubic-bezier(0.22, 1, 0.36, 1), top 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Emoji-only notes drop the sticky-note card entirely — just the emoji
+   floating like a sticker, with a small tag underneath for who left it. */
+.corkboard-note.is-emoji {
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  background: none !important;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.corkboard-note.is-emoji::before {
+  content: none;
+}
+
+.corkboard-note.is-emoji.is-placing,
+.corkboard-note.is-emoji.is-dragging {
+  box-shadow: none;
+  /* Emoji stickers have no card background to cast a box-shadow onto, so the
+     "lifted" cue the regular notes get from their box-shadow is done here
+     instead with a stronger, more offset drop-shadow (below, on the glyph
+     itself) plus a slight scale-up — reads as the sticker floating toward
+     the viewer while held. */
+  transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(1.15);
+}
+
+.corkboard-note.is-emoji.is-placing .corkboard-note-message,
+.corkboard-note.is-emoji.is-dragging .corkboard-note-message {
+  filter: drop-shadow(4px 11px 10px rgba(0, 0, 0, 0.45));
+}
+
+.corkboard-note-message {
+  font-family: productsans;
+  font-size: 0.85rem;
+  color: #2E2D32;
+  line-height: 1.35;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.corkboard-note.is-emoji .corkboard-note-message {
+  font-size: 2.8rem;
+  line-height: 1;
+  filter: drop-shadow(1px 3px 3px rgba(0, 0, 0, 0.35));
+  transition: filter 0.18s ease;
+}
+
+.corkboard-note-meta {
+  font-family: productsans;
+  font-size: 0.7rem;
+  color: rgba(46, 45, 50, 0.75);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.corkboard-note.is-emoji .corkboard-note-meta {
+  padding: 4px 10px;
+  border-radius: 3px;
+  box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.25);
+  font-size: 0.62rem;
+  max-width: 100px;
+  text-align: center;
+  margin-top: 0;
+}
+
+.corkboard-note-name,
+.corkboard-note-role {
+  display: block;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.corkboard-note-name {
+  font-weight: bold;
+}
+
+.corkboard-note-name::before {
+  content: "- ";
+}
+
+.corkboard-note-role {
+  font-style: italic;
+}
+
+/* Sticky-note launcher — pinned to the bottom-left corner of the board itself
+   (.corkboard-board is position: relative), so it only exists within this
+   section rather than following the visitor around the whole page. */
+
+.corkboard-fab {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  width: 58px;
+  height: 58px;
+  border: none;
+  border-radius: 6px;
+  background: #fff59d;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  z-index: 10;
+  transform: rotate(-6deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.corkboard-fab::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 16px 16px;
+  border-color: transparent transparent rgba(0, 0, 0, 0.15) transparent;
+}
+
+.corkboard-fab::after {
+  content: '+';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 26px;
+  color: #2E2D32;
+}
+
+.corkboard-fab:hover {
+  transform: rotate(0deg) scale(1.06);
+  box-shadow: 3px 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* Appears once a visitor has dragged at least one note (see corkboard.js) —
+   lets them undo their own local rearranging and go back to everyone's
+   original pinned spots. Pinned top-right to stay clear of the fab. */
+.corkboard-reset-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-family: productsans;
+  font-size: 0.75rem;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.corkboard-reset-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.corkboard-reset-btn:hover {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+/* Composer modal */
+
+.corkboard-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 500;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.corkboard-modal.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.3s ease;
+}
+
+.corkboard-composer {
+  position: relative;
+  width: 90%;
+  max-width: 380px;
+  background: transparent;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transform: translateY(40px);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.corkboard-modal.active .corkboard-composer {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.corkboard-note-editor {
+  position: relative;
+  border-radius: 8px;
+  padding: 32px 20px 20px;
+  background: #fff59d;
+  box-shadow: 3px 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.corkboard-modal-close {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  z-index: 2;
+  background: #2E2D32;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.3s ease;
+}
+
+.corkboard-modal-close:hover {
+  background: #000;
+  transform: rotate(90deg);
+}
+
+.corkboard-note-editor h2 {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+  font-size: 1.3rem;
+  color: #2E2D32;
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+
+.corkboard-input,
+.corkboard-textarea {
+  width: 100%;
+  font-family: productsans;
+  font-size: 0.9rem;
+  color: #2E2D32;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  padding: 9px 11px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.corkboard-input:focus,
+.corkboard-textarea:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.corkboard-textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.corkboard-textarea {
+  height: 80px;
+}
+
+.corkboard-or-divider {
+  font-family: productsans;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(46, 45, 50, 0.55);
+  text-align: center;
+  margin: 4px 0 10px;
+}
+
+.corkboard-signature-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.corkboard-signature-row .corkboard-input {
+  margin-bottom: 0;
+}
+
+.corkboard-signature-dash {
+  font-family: productsans;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #2E2D32;
+}
+
+.corkboard-input--role {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.corkboard-emoji-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.corkboard-emoji-btn {
+  width: 38px;
+  height: 38px;
+  font-size: 1.2rem;
+  line-height: 1;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.corkboard-emoji-btn:hover {
+  transform: scale(1.12);
+}
+
+.corkboard-emoji-btn.is-selected {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #2E2D32;
+  box-shadow: 0 0 0 2px rgba(46, 45, 50, 0.25);
+}
+
+.corkboard-emoji-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.corkboard-color-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.corkboard-color-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.corkboard-color-dot:hover {
+  transform: scale(1.1);
+}
+
+.corkboard-color-dot.is-selected {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.corkboard-error {
+  font-family: productsans;
+  font-size: 0.78rem;
+  color: #ff8a7a;
+  text-align: center;
+  margin: 14px 0 0;
+  min-height: 1em;
+}
+
+.corkboard-pin-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: 10px;
+  border-color: #fff;
+  color: #fff;
+}
+
+.corkboard-pin-btn .btn-pill-fill {
+  background: #fff;
+}
+
+.corkboard-pin-btn .btn-pill-label-text--ghost {
+  color: #2E2D32;
+}
+
+.corkboard-pin-btn:hover ion-icon {
+  color: #2E2D32;
+}
+
+.corkboard-placing-hint {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-family: productsans;
+  font-size: 0.8rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 60;
+  white-space: nowrap;
+}
+
+.corkboard-toast {
+  background: rgba(192, 57, 43, 0.9);
+}
