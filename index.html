@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <title>Dennis Layson Jr.</title>
+         <meta name="description" content="Portfolio of Dennis Layson Jr. — UI/UX designer, frontend developer, and multimedia creative based in the Philippines.">
+         <meta property="og:type" content="website">
+         <meta property="og:title" content="Dennis Layson Jr.">
+         <meta property="og:description" content="Portfolio of Dennis Layson Jr. — UI/UX designer, frontend developer, and multimedia creative based in the Philippines.">
+         <meta property="og:image" content="favicon.png">
+         <meta name="twitter:card" content="summary_large_image">
+         <meta name="twitter:title" content="Dennis Layson Jr.">
+         <meta name="twitter:description" content="Portfolio of Dennis Layson Jr. — UI/UX designer, frontend developer, and multimedia creative based in the Philippines.">
+         <meta name="twitter:image" content="favicon.png">
+         <link rel="stylesheet" href="css/main.css">
+         <link rel="stylesheet" href="css/corkboard.css">
+         <link rel="stylesheet" href="css/contact.css">
+         <link rel="stylesheet" href="css/footer.css">
+         <link rel="stylesheet" href="css/page-transition.css">
+         <!-- Loaded last (of the local stylesheets) on purpose: its
+              @media overrides need to win cascade ties against each
+              component file's base (desktop) rules above, which only
+              happens if it comes after all of them in source order. -->
+         <link rel="stylesheet" href="css/breakpoints.css">
+         <link rel="shortcut icon" type="image/png" href="favicon.png">
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<!--JS for Scroll-->
+         <!-- Registered before script.js so its pageWipeReveal/pageWipeForceHidden
+              helpers exist by the time script.js's own DOMContentLoaded handler
+              (further down the same event, run in script-tag order) needs them. -->
+         <script defer src="js/page-transition.js"></script>
+         <script defer src="js/projects.js"></script>
+         <script defer src="js/script.js"></script>
+         <script defer src="js/stickers.js"></script>
+         <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+         <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+         <script src="js/firebase-config.js"></script>
+         <script defer src="js/corkboard.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+     </head>
+     <body>
+      <!-- Three-layer exit/entrance wipe (see page-transition.css/js). Starts
+           in the default "covering" state; script.js decides on load whether
+           to reveal it (skipping the .preload counter below) or hide it
+           instantly (letting that counter play instead). -->
+      <div class="wipe-layer wipe-layer--grey-1" aria-hidden="true"></div>
+      <div class="wipe-layer wipe-layer--blue" aria-hidden="true">
+        <img class="wipe-layer__logo" src="logonav.svg" alt="" draggable="false">
+      </div>
+      <div class="wipe-layer wipe-layer--grey-2" aria-hidden="true"></div>
+      <div class="custom-cursor"></div>
+      <div class="sticker-trail" aria-hidden="true"></div>
+      <!-- Lives outside .smooth-scroll (unlike the rest of .nav_bar) so it's a
+           plain fixed element in the real viewport — no counter-transform
+           needed to stay sticky, and no risk of being trapped behind content
+           inside .parallax's negative-z-index stacking context. -->
+      <div class="left_section">
+        <a href="#" class="logo-link">
+          <img draggable="false" class="logo" src="logonav.svg" alt="css logo">
+        </a>
+        <span class="logo-text">Dennis Layson Jr.</span>
+      </div>
+      <!-- The composer modal lives outside .smooth-scroll for the same reason as
+           .left_section above: a plain position:fixed here stays centered on the
+           real viewport regardless of scroll, with no JS counter-transform needed.
+           The FAB itself lives inside the Corkboard section further down instead,
+           so it's only reachable while that section is in view. -->
+      <div class="corkboard-modal" id="corkboardModal">
+        <div class="corkboard-composer" id="corkboardComposer">
+          <button type="button" class="corkboard-modal-close" aria-label="Close">&times;</button>
+          <div class="corkboard-note-editor" id="corkboardEditor">
+            <h2>LEAVE A NOTE</h2>
+            <textarea class="corkboard-textarea" id="corkboardMessage" placeholder="Write a short message..." maxlength="100"></textarea>
+            <span class="corkboard-char-count" id="corkboardMessageCount">0/100</span>
+            <p class="corkboard-or-divider">or react instead</p>
+            <div class="corkboard-emoji-row" id="corkboardEmojiRow"></div>
+            <div class="corkboard-signature-row">
+              <span class="corkboard-signature-dash" aria-hidden="true">-</span>
+              <input type="text" class="corkboard-input" id="corkboardName" placeholder="Your name" maxlength="40">
+            </div>
+            <input type="text" class="corkboard-input corkboard-input--role" id="corkboardRole" placeholder="Job title / role (optional)" maxlength="60">
+          </div>
+          <div class="corkboard-color-row" id="corkboardColorRow"></div>
+          <p class="corkboard-error" id="corkboardError"></p>
+          <button type="button" id="corkboardPinBtn" class="btn-pill corkboard-pin-btn">
+            <span class="btn-pill-fill" aria-hidden="true"></span>
+            <span class="btn-pill-content">
+              <span class="btn-pill-label">
+                <span class="btn-pill-label-text btn-pill-label-text--base">Pin it to the board</span>
+                <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">Pin it to the board</span>
+              </span>
+              <ion-icon name="pin-outline"></ion-icon>
+            </span>
+          </button>
+        </div>
+      </div>
+      <!-- Fixed + negative z-index, sitting behind everything in normal flow —
+           .footer-reveal-spacer at the very end of .smooth-scroll's content
+           is the one place with nothing opaque painted over it, so this only
+           becomes visible once that spacer scrolls into view. Same
+           outside-.smooth-scroll reasoning as .left_section above. -->
+      <div class="footer-parallax" id="footerParallax">
+        <div class="footer-parallax-inner">
+          <img src="logonav.svg" alt="Dennis Layson Jr. logo" class="footer-logo" id="footerLogo">
+          <p class="footer-tagline">Design With Purpose.<br>Built To Lead.</p>
+        </div>
+      </div>
+      <audio id="bg-music" src="audio/theme.mp3" loop preload="none"></audio>
+      <div class="work-preview" aria-hidden="true">
+        <div class="work-preview-inner">
+          <img class="work-preview-img" src="" alt="">
+          <div class="work-preview-tiles"></div>
+          <video class="work-preview-video" muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="preload">
+        <div class="preload__inner">
+          <img draggable="false" src="logonav.svg" alt="logo" class="preload__logo">
+        </div>
+        <div class="preload__count"><span class="count">0</span></div>
+      </div>
+      <div class="smooth-scroll">
+          <!-- Replace hamburger menu with new sidebar navigation -->
+          <nav class="sidebar">
+            <ul class="sidebar__menu">
+              <li class="sidebar__item">
+                <a href="#About" class="sidebar__link"><ion-icon name="information-circle-outline"></ion-icon><span>About</span></a>
+              </li>
+              <li class="sidebar__item">
+                <a href="#Works" class="sidebar__link"><ion-icon name="library-outline"></ion-icon><span>Works</span></a>
+              </li>
+              <li class="sidebar__item">
+                <a href="#Contact" class="sidebar__link"><ion-icon name="mail-outline"></ion-icon><span>Contact</span></a>
+              </li>
+            </ul>
+          </nav>
+          <section class="parallax" id="Home">
+            <img class="bg" src="parallax/hero.png" id="bg" alt="">
+            <div class="headset-hotspot" aria-hidden="true"></div>
+            <div class="nav_bar">
+                <div class="right_section">
+                  <div class="About">
+                    <a class="link_nav" href="#About">
+                      <div class="link_text">About</div>
+                    </a>
+                  </div>
+                  <div class="Works">
+                    <a class="link_nav" href="#Works">
+                      <div class="link_text">Works</div>
+                    </a>
+                  </div>
+                  <div class="Contact">
+                    <a class="link_nav" href="#Contact">
+                      <div class="link_text">Contact</div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            <div class="maintext">
+              <p>Dennis Layson Jr. — </p>
+            </div>
+          </section>
+<div class="gridbg">
+    <div id="About" class="content1">
+      <div class="aboutbox">
+        <div class="about-header">
+          <h1 class="about-title" aria-label="ABOUT ME">
+            <span class="letter-mask" style="--i:0"><span class="letter">A</span></span><span class="letter-mask" style="--i:1"><span class="letter">B</span></span><span class="letter-mask" style="--i:2"><span class="letter">O</span></span><span class="letter-mask" style="--i:3"><span class="letter">U</span></span><span class="letter-mask" style="--i:4"><span class="letter">T</span></span><span class="letter-mask space" style="--i:5" aria-hidden="true">&nbsp;</span><span class="letter-mask" style="--i:6"><span class="letter">M</span></span><span class="letter-mask" style="--i:7"><span class="letter">E</span></span>
+          </h1>
+          <div class="about-typing"><span class="auto-type"></span></div>
+        </div>
+
+        <div class="about-copy">
+          <p class="reveal-para"><span class="reveal-word">Computer</span> <span class="reveal-word">Science</span> <span class="reveal-word">Graduate</span> <span class="reveal-word">from</span> <span class="reveal-word">Pamantasan</span> <span class="reveal-word">ng</span> <span class="reveal-word">Lungsod</span> <span class="reveal-word">ng</span> <span class="reveal-word">Maynila.</span> <span class="reveal-word">I</span> <span class="reveal-word">am</span> <span class="reveal-word">keen</span> <span class="reveal-word">on</span> <span class="reveal-word">making</span> <span class="reveal-word">a</span> <span class="reveal-word">difference</span> <span class="reveal-word">in</span> <span class="reveal-word">communities</span> <span class="reveal-word">that</span> <span class="reveal-word">I</span> <span class="reveal-word">belong</span> <span class="reveal-word">to,</span> <span class="reveal-word">through</span> <span class="reveal-word">different</span> <span class="reveal-word">mediums</span> <span class="reveal-word">such</span> <span class="reveal-word">as</span> <span class="reveal-word">designing</span> <span class="reveal-word">in</span> <span class="reveal-word">the</span> <span class="reveal-word">digital</span> <span class="reveal-word">space,</span> <span class="reveal-word">leading</span> <span class="reveal-word">an</span> <span class="reveal-word">event,</span> <span class="reveal-word">creating</span> <span class="reveal-word">platforms</span> <span class="reveal-word">for</span> <span class="reveal-word">real-world</span> <span class="reveal-word">impact.</span></p>
+          <p class="reveal-para"><span class="reveal-word">The</span> <span class="reveal-word">intersection</span> <span class="reveal-word">of</span> <span class="reveal-word">my</span> <span class="reveal-word">technical</span> <span class="reveal-word">coding</span> <span class="reveal-word">skills,</span> <span class="reveal-word">creative</span> <span class="reveal-word">design</span> <span class="reveal-word">eye,</span> <span class="reveal-word">and</span> <span class="reveal-word">passion</span> <span class="reveal-word">for</span> <span class="reveal-word">civic</span> <span class="reveal-word">leadership</span> <span class="reveal-word">positions</span> <span class="reveal-word">me</span> <span class="reveal-word">in</span> <span class="reveal-word">a</span> <span class="reveal-word">unique</span> <span class="reveal-word">place</span> <span class="reveal-word">to</span> <span class="reveal-word">build</span> <span class="reveal-word">digital</span> <span class="reveal-word">platforms</span> <span class="reveal-word">that</span> <span class="reveal-word">truly</span> <span class="reveal-word">serve</span> <span class="reveal-word">communities.</span></p>
+        </div>
+
+        <span class="hidden btn-reveal">
+          <a href="https://drive.google.com/uc?export=download&id=1m6dmUeUQUr9LQj5cQNjd8ILR_sE9NLKN">
+            <button class="btn-pill btn-reveal-inner">
+              <span class="btn-pill-fill" aria-hidden="true"></span>
+              <span class="btn-pill-content">
+                <span class="btn-pill-label">
+                  <span class="btn-pill-label-text btn-pill-label-text--base">Download Resume</span>
+                  <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">Download Resume</span>
+                </span>
+                <ion-icon name="download-outline"></ion-icon>
+              </span>
+            </button>
+          </a>
+        </span>
+      </div>
+
+    </div>
+    <div class="textboxdark">
+      <h1 id="Works" class="works-title" aria-label="RECENT WORKS">
+            <span class="letter-mask" style="--i:0"><span class="letter">R</span></span><span class="letter-mask" style="--i:1"><span class="letter">E</span></span><span class="letter-mask" style="--i:2"><span class="letter">C</span></span><span class="letter-mask" style="--i:3"><span class="letter">E</span></span><span class="letter-mask" style="--i:4"><span class="letter">N</span></span><span class="letter-mask" style="--i:5"><span class="letter">T</span></span><span class="letter-mask space" style="--i:6" aria-hidden="true">&nbsp;</span><span class="letter-mask" style="--i:7"><span class="letter">W</span></span><span class="letter-mask" style="--i:8"><span class="letter">O</span></span><span class="letter-mask" style="--i:9"><span class="letter">R</span></span><span class="letter-mask" style="--i:10"><span class="letter">K</span></span><span class="letter-mask" style="--i:11"><span class="letter">S</span></span>
+      </h1>
+    </div>
+    <div class="content2">
+      <!--works list: hover shows a following photo preview, click opens the project modal-->
+      <div class="slide work-row">
+        <video src="works/GDG/DJI_0870 - Trim.mp4" data-project-id="1" muted loop playsinline preload="metadata"></video>
+        <span class="work-category">Leadership</span>
+        <span class="work-title"><span class="work-title-fit" data-short="GDGoC">Google Developer Groups on Campus</span></span>
+        <span class="work-year">2026</span>
+      </div>
+      <div class="slide work-row">
+        <img src="works/Notion/Notion.png" data-project-id="2" alt="Notion">
+        <span class="work-category">Leadership</span>
+        <span class="work-title"><span class="work-title-fit">Notion</span></span>
+        <span class="work-year">2024</span>
+      </div>
+      <div class="slide work-row">
+        <video src="works/WSP/WSP.mp4" data-project-id="3" muted loop playsinline preload="metadata"></video>
+        <span class="work-category">Branding</span>
+        <span class="work-title"><span class="work-title-fit" data-short="WSP PH">World Student Pitch Philippines</span></span>
+        <span class="work-year">2025</span>
+      </div>
+      <div class="slide work-row">
+        <video src="works/Moonton/Moonton.mp4" data-project-id="4" muted loop playsinline preload="metadata"></video>
+        <span class="work-category">Multimedia Design</span>
+        <span class="work-title"><span class="work-title-fit" data-short="MSL">Moonton Student Leaders</span></span>
+        <span class="work-year">2023</span>
+      </div>
+      <div class="slide work-row">
+        <img src="works/HOR/HOR.png" data-project-id="5" alt="House of Representatives">
+        <span class="work-category">Multimedia Design</span>
+        <span class="work-title"><span class="work-title-fit" data-short="HOR">House of Representatives</span></span>
+        <span class="work-year">2025</span>
+      </div>
+      <div class="slide work-row">
+        <video src="works/Tara Kabataan/Tara Kabataan.mp4" data-project-id="6" muted loop playsinline preload="metadata"></video>
+        <span class="work-category">UI / UX / Frontend</span>
+        <span class="work-title"><span class="work-title-fit">Tara Kabataan</span></span>
+        <span class="work-year">2025</span>
+      </div>
+      <div class="slide work-row">
+        <video src="works/Gear Up/Gear Up.mp4" data-project-id="7" muted loop playsinline preload="metadata"></video>
+        <span class="work-category">UI / UX and Branding</span>
+        <span class="work-title"><span class="work-title-fit">Gear Up</span></span>
+        <span class="work-year">2025</span>
+      </div>
+  </div>
+
+    <div class="works-buttons">
+      <span class="hidden btn-reveal">
+        <a href="works.html">
+          <button class="btn-pill btn-pill--see-more btn-reveal-inner">
+            <span class="btn-pill-fill" aria-hidden="true"></span>
+            <span class="btn-pill-content">
+              <span class="btn-pill-label">
+                <span class="btn-pill-label-text btn-pill-label-text--base">See More</span>
+                <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">See More</span>
+              </span>
+              <ion-icon name="arrow-up-outline"></ion-icon>
+            </span>
+          </button>
+        </a>
+      </span>
+    </div>
+
+    <div class="textboxdark">
+      <h1 id="Corkboard" class="works-title corkboard-title" aria-label="THE CORKBOARD">
+            <span class="letter-mask" style="--i:0"><span class="letter">T</span></span><span class="letter-mask" style="--i:1"><span class="letter">H</span></span><span class="letter-mask" style="--i:2"><span class="letter">E</span></span><span class="letter-mask space" style="--i:3" aria-hidden="true">&nbsp;</span><span class="letter-mask" style="--i:4"><span class="letter">C</span></span><span class="letter-mask" style="--i:5"><span class="letter">O</span></span><span class="letter-mask" style="--i:6"><span class="letter">R</span></span><span class="letter-mask" style="--i:7"><span class="letter">K</span></span><span class="letter-mask" style="--i:8"><span class="letter">B</span></span><span class="letter-mask" style="--i:9"><span class="letter">O</span></span><span class="letter-mask" style="--i:10"><span class="letter">A</span></span><span class="letter-mask" style="--i:11"><span class="letter">R</span></span><span class="letter-mask" style="--i:12"><span class="letter">D</span></span>
+      </h1>
+      <p class="corkboard-subtitle">Got a kind word, a reaction, or just want to say hi? Pin it here — this board's all yours.</p>
+    </div>
+    <div class="corkboard-wrap">
+      <div class="corkboard-board" id="corkboardBoard">
+        <button class="corkboard-fab" id="corkboardFab" aria-label="Leave a note on the corkboard"></button>
+        <button type="button" class="corkboard-reset-btn" id="corkboardResetBtn">Reset Layout</button>
+        <div class="corkboard-empty" id="corkboardEmpty">Be the first to leave something here!</div>
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <div class="contact-wrap">
+        <h1 id="Contact" class="works-title contact-title" aria-label="LET'S WORK TOGETHER">
+          <span class="contact-title-line">
+            <span class="letter-mask" style="--i:0"><span class="letter">L</span></span><span class="letter-mask" style="--i:1"><span class="letter">E</span></span><span class="letter-mask" style="--i:2"><span class="letter">T</span></span><span class="letter-mask" style="--i:3"><span class="letter">’</span></span><span class="letter-mask" style="--i:4"><span class="letter">S</span></span><span class="letter-mask space" style="--i:5" aria-hidden="true">&nbsp;</span><span class="letter-mask" style="--i:6"><span class="letter">W</span></span><span class="letter-mask" style="--i:7"><span class="letter">O</span></span><span class="letter-mask" style="--i:8"><span class="letter">R</span></span><span class="letter-mask" style="--i:9"><span class="letter">K</span></span>
+          </span>
+          <span class="contact-title-line">
+            <span class="letter-mask" style="--i:10"><span class="letter">T</span></span><span class="letter-mask" style="--i:11"><span class="letter">O</span></span><span class="letter-mask" style="--i:12"><span class="letter">G</span></span><span class="letter-mask" style="--i:13"><span class="letter">E</span></span><span class="letter-mask" style="--i:14"><span class="letter">T</span></span><span class="letter-mask" style="--i:15"><span class="letter">H</span></span><span class="letter-mask" style="--i:16"><span class="letter">E</span></span><span class="letter-mask" style="--i:17"><span class="letter">R</span></span>
+          </span>
+        </h1>
+        <div class="contact-side">
+          <p class="contact-copy">Have a project in mind? I'd love to hear about it. Let's create something great together!</p>
+          <span class="hidden btn-reveal">
+            <a href="mailto:dennislaysonjr3@gmail.com">
+              <button class="btn-pill contact-cta btn-reveal-inner">
+                <span class="btn-pill-fill" aria-hidden="true"></span>
+                <span class="btn-pill-content">
+                  <span class="btn-pill-label">
+                    <span class="btn-pill-label-text btn-pill-label-text--base">Get In Touch</span>
+                    <span class="btn-pill-label-text btn-pill-label-text--ghost" aria-hidden="true">Get In Touch</span>
+                  </span>
+                </span>
+              </button>
+            </a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!--here footer-->
+    <div class="footer-new">
+      <div class="footer-top">
+        <div class="footer-col footer-contact">
+          <span class="footer-label">(EMAIL)</span>
+          <a href="mailto:dennislaysonjr3@gmail.com" class="footer-email">dennislaysonjr3@gmail.com</a>
+        </div>
+        <div class="footer-col footer-links">
+          <span class="footer-label">(LINKS)</span>
+          <a href="#Home">Home</a>
+          <a href="#About">About</a>
+          <a href="#Works">Works</a>
+          <a href="#Corkboard">Corkboard</a>
+        </div>
+        <div class="footer-col footer-socials">
+          <span class="footer-label">(SOCIALS)</span>
+          <a href="https://www.linkedin.com/in/dennis-layson-jr-462850308/" target="_blank">LinkedIn<ion-icon name="arrow-up-outline"></ion-icon></a>
+          <a href="https://github.com/DsLaysonJr" target="_blank">GitHub<ion-icon name="arrow-up-outline"></ion-icon></a>
+        </div>
+      </div>
+      <div class="footer-bottom-row">
+        <p class="footer-copyright">© 2026 Dennis Layson Jr. All rights reserved.</p>
+      </div>
+    </div>
+    <!-- Transparent spacer — .footer-parallax lives outside .smooth-scroll as a
+         fixed, negative-z-index layer (see index.html:33 and footer.css), so
+         nothing here actually paints over it. As this gap scrolls up through
+         the viewport it's the only place with no opaque content in front,
+         which is what makes that layer "reveal" from behind .footer-new. -->
+    <div class="footer-reveal-spacer" aria-hidden="true"></div>
+  </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <!--JavaScript-->
+    <!--type animation-->
+
+<script>
+var typed = new Typed(".auto-type", {
+    strings: ["Leader", "Creative", "Developer", "Organizer", "Designer"],
+    typeSpeed: 120,
+    backSpeed: 120,
+    loop: true
+})
+</script>
+
+     </body>
+     </html>
